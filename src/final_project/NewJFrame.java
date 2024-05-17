@@ -9,10 +9,15 @@ import java.awt.BorderLayout;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
+import vn.pipeline.Annotation;
+import vn.pipeline.VnCoreNLP;
 
 /**
  *
@@ -54,7 +59,7 @@ public class NewJFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jButton5 = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTextArea4 = new javax.swing.JTextArea();
+        areaOutput = new javax.swing.JTextArea();
         btnChonFile = new javax.swing.JButton();
         txtTenFile = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -65,6 +70,11 @@ public class NewJFrame extends javax.swing.JFrame {
         btnChuyenDoi.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnChuyenDoi.setForeground(new java.awt.Color(0, 153, 255));
         btnChuyenDoi.setText("=>");
+        btnChuyenDoi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChuyenDoiActionPerformed(evt);
+            }
+        });
 
         btnSave.setBackground(new java.awt.Color(0, 102, 255));
         btnSave.setFont(new java.awt.Font("HP Simplified Jpan", 0, 18)); // NOI18N
@@ -73,9 +83,9 @@ public class NewJFrame extends javax.swing.JFrame {
 
         jButton5.setText("Chọn File");
 
-        jTextArea4.setColumns(20);
-        jTextArea4.setRows(5);
-        jScrollPane4.setViewportView(jTextArea4);
+        areaOutput.setColumns(20);
+        areaOutput.setRows(5);
+        jScrollPane4.setViewportView(areaOutput);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -176,6 +186,27 @@ public class NewJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnChonFileActionPerformed
 
+    private void btnChuyenDoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChuyenDoiActionPerformed
+        // TODO add your handling code here:
+        String[] annotators = {"wseg", "pos", "ner", "parse"}; 
+        VnCoreNLP pipeline = null; 
+        try {
+            pipeline = new VnCoreNLP(annotators);
+        } catch (IOException ex) {
+            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+        String str = areaInput.getText(); 
+        
+        Annotation annotation = new Annotation(str); 
+        try { 
+            pipeline.annotate(annotation);
+        } catch (IOException ex) {
+            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        areaOutput.setText(annotation.toString());
+    }//GEN-LAST:event_btnChuyenDoiActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -213,6 +244,7 @@ public class NewJFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea areaInput;
+    private javax.swing.JTextArea areaOutput;
     private javax.swing.JButton btnChonFile;
     private javax.swing.JButton btnChuyenDoi;
     private javax.swing.JButton btnSave;
@@ -220,7 +252,6 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTextArea jTextArea4;
     private javax.swing.JTextField txtTenFile;
     // End of variables declaration//GEN-END:variables
 }
