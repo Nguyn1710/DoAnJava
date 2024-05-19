@@ -80,6 +80,11 @@ public class NewJFrame extends javax.swing.JFrame {
         btnSave.setFont(new java.awt.Font("HP Simplified Jpan", 0, 18)); // NOI18N
         btnSave.setForeground(new java.awt.Color(255, 255, 255));
         btnSave.setText("Save");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("Chọn File");
 
@@ -206,6 +211,10 @@ public class NewJFrame extends javax.swing.JFrame {
         }
         areaOutput.setText(annotation.toString());
     }//GEN-LAST:event_btnChuyenDoiActionPerformed
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSaveActionPerformed
 
     /**
      * @param args the command line arguments
