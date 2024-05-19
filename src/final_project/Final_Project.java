@@ -21,6 +21,8 @@ public class Final_Project {
     public static void main(String[] args) throws IOException {
 
         // "wseg", "pos", "ner", and "parse" refer to as word segmentation, POS tagging, NER and dependency parsing, respectively. 
+
+        // "wseg", "pos", "ner", and "parse" refer to as word segmentation, POS tagging, NER and dependency parsing, respectively. 
         String[] annotators = {"wseg", "pos", "ner", "parse"};
         VnCoreNLP pipeline = new VnCoreNLP(annotators);
 
