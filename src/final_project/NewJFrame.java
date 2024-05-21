@@ -24,6 +24,7 @@ import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Document;
 import javax.swing.text.Highlighter;
 import javax.swing.text.JTextComponent;
+import sun.jvm.hotspot.debugger.cdbg.Sym;
 import vn.pipeline.Annotation;
 import vn.pipeline.VnCoreNLP;
 import vn.pipeline.Word;
@@ -34,26 +35,16 @@ import vn.pipeline.Word;
  */
 public class NewJFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form NewJFrame
-     */
+        // Extract words from annotation
+    List<WordPosition> nounWords = new ArrayList<>();
+    List<WordPosition> verbWords = new ArrayList<>();
+    List<WordPosition> adjWords = new ArrayList<>();
+    // Extract words from annotation
+    List<WordPosition> wordsWithPositions = new ArrayList<>();
+    
     public NewJFrame() {
         initComponents();
         areaInput.setEditable(false);
-//        JScrollPane  scroll = new JScrollPane(areaInput);
-//          scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-//
-//         this.add(areaInput);
-//         this.add(scroll);
-//
-//          this.setSize(1000, 600);
-//       this.setLayout(new BorderLayout());
-//       
-//
-//
-//        setVisible(true);
-//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        setLocationRelativeTo(null);
     }
 
     public void highlighter(String word, String POS ,int vt) {
@@ -122,6 +113,9 @@ public class NewJFrame extends javax.swing.JFrame {
         txtTenFile = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
         areaInput = new javax.swing.JTextArea();
+        btnSave1 = new javax.swing.JButton();
+        btnSave2 = new javax.swing.JButton();
+        btnSave3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -137,7 +131,7 @@ public class NewJFrame extends javax.swing.JFrame {
         btnSave.setBackground(new java.awt.Color(0, 102, 255));
         btnSave.setFont(new java.awt.Font("HP Simplified Jpan", 0, 18)); // NOI18N
         btnSave.setForeground(new java.awt.Color(255, 255, 255));
-        btnSave.setText("Highlight");
+        btnSave.setText("Highlight all");
         btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSaveActionPerformed(evt);
@@ -180,6 +174,36 @@ public class NewJFrame extends javax.swing.JFrame {
         areaInput.setRows(5);
         jScrollPane3.setViewportView(areaInput);
 
+        btnSave1.setBackground(new java.awt.Color(0, 102, 255));
+        btnSave1.setFont(new java.awt.Font("HP Simplified Jpan", 0, 18)); // NOI18N
+        btnSave1.setForeground(new java.awt.Color(255, 255, 255));
+        btnSave1.setText("Highlight A");
+        btnSave1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSave1ActionPerformed(evt);
+            }
+        });
+
+        btnSave2.setBackground(new java.awt.Color(0, 102, 255));
+        btnSave2.setFont(new java.awt.Font("HP Simplified Jpan", 0, 18)); // NOI18N
+        btnSave2.setForeground(new java.awt.Color(255, 255, 255));
+        btnSave2.setText("Highlight V");
+        btnSave2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSave2ActionPerformed(evt);
+            }
+        });
+
+        btnSave3.setBackground(new java.awt.Color(0, 102, 255));
+        btnSave3.setFont(new java.awt.Font("HP Simplified Jpan", 0, 18)); // NOI18N
+        btnSave3.setForeground(new java.awt.Color(255, 255, 255));
+        btnSave3.setText("Highlight N");
+        btnSave3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSave3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -194,10 +218,13 @@ public class NewJFrame extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(36, 36, 36)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnChuyenDoi)
-                            .addComponent(btnSave))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(btnSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnSave3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnSave2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnSave1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnChuyenDoi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -217,7 +244,13 @@ public class NewJFrame extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(188, 188, 188)
                                 .addComponent(btnChuyenDoi, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 172, Short.MAX_VALUE)
+                                .addComponent(btnSave3, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnSave2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnSave1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
                                 .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(73, Short.MAX_VALUE))
@@ -244,30 +277,118 @@ public class NewJFrame extends javax.swing.JFrame {
         catch(Exception e){
             JOptionPane.showMessageDialog(null, e);
         }
+        
+        ///////////////////////////////////////////////////
+        String[] annotators = {"wseg", "pos", "ner", "parse"};
+        VnCoreNLP pipeline = null;
+        try {
+            pipeline = new VnCoreNLP(annotators);
+        } catch (IOException ex) {
+            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        String str = areaInput.getText();
+        Annotation annotation = new Annotation(str);
+        try {
+            pipeline.annotate(annotation);
+        } catch (IOException ex) {
+            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
+        String text = areaInput.getText();
+        int currentPos = 0;
+        int wordIndex = 0 ;
+
+        
+        for (Word item : annotation.getWords()) {
+            String[] fields = item.toString().split("\t");
+            if (fields.length > 3) {
+                String word = item.getForm();
+                int startPos = text.indexOf(word, currentPos);
+                int endPos = startPos + word.length() - 1;
+                if (startPos != -1) {
+                    switch (fields[2]) {
+                        case "N":
+                        {
+                            WordPosition wordPosition = new WordPosition(wordIndex, "N", startPos, endPos);
+                            nounWords.add(wordPosition);
+                            break;
+                        } 
+                        case "V":
+                        {
+                            WordPosition wordPosition = new WordPosition(wordIndex, "V", startPos, endPos);                            
+                            verbWords.add(wordPosition);
+                            break;
+                        }                           
+                        case "A":
+                        {
+                            WordPosition wordPosition = new WordPosition(wordIndex, "A", startPos, endPos);
+                            adjWords.add(wordPosition);
+                            break;
+                        }   
+                        default:
+                            break;
+                    }
+                    currentPos = endPos + 1; // Update current position to search for next word
+                    wordIndex++; // Increment the word index
+                }
+            }
+        }
+        ///////////////////////////////////////////////////////////////
     }//GEN-LAST:event_btnChonFileActionPerformed
 
-//     public void findWord(JTextComponent text, List<String> patterns) {
-//        try {
-//            // Get the document and its text
-//            Highlighter highlighter = text.getHighlighter();
-//            Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(Color.YELLOW);
-//
-//            // Remove previous highlights
-//            highlighter.removeAllHighlights();
-//
-//            // Highlight each pattern
-//            for (String pattern : patterns) {
-//                int pos = 0;
-//                while ((pos = txt.toUpperCase().indexOf(pattern.toUpperCase(), pos)) >= 0) {
-//                    int end = pos + pattern.length();
-//                    highlighter.addHighlight(pos, end, painter);
-//                    pos = end;
-//                }
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace(); // Handle the exception, e.g., log it
-//        }
-//    }
+    
+    public void highlighterNoun(List<WordPosition> patterns) {
+    Highlighter hl = areaInput.getHighlighter();
+    //hl.removeAllHighlights();
+    Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(Color.YELLOW);
+
+    for (WordPosition pattern : patterns) {
+        
+        try {
+            int start = pattern.getStartPos();
+            int end = pattern.getEndPos() + 1; // End position should be inclusive
+            hl.addHighlight(start, end, painter);
+        } catch (BadLocationException ex) {
+            ex.printStackTrace();
+            }
+        }
+    }
+    public void highlighterVerd(List<WordPosition> patterns) {
+    Highlighter hl = areaInput.getHighlighter();
+    //hl.removeAllHighlights();
+    Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(Color.BLUE);
+
+    for (WordPosition pattern : patterns) {
+        
+        try {
+            int start = pattern.getStartPos();
+            int end = pattern.getEndPos() + 1; // End position should be inclusive
+            hl.addHighlight(start, end, painter);
+        } catch (BadLocationException ex) {
+            ex.printStackTrace();
+            }
+        }
+    }
+    public void highlighterAdj(List<WordPosition> patterns) {
+    Highlighter hl = areaInput.getHighlighter();
+//    hl.removeAllHighlights();
+    Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(Color.RED);
+
+    for (WordPosition pattern : patterns) {
+        
+        try {
+            int start = pattern.getStartPos();
+            int end = pattern.getEndPos() + 1; // End position should be inclusive
+            hl.addHighlight(start, end, painter);
+        } catch (BadLocationException ex) {
+            ex.printStackTrace();
+            }
+        }
+    }
+
+
     private void btnChuyenDoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChuyenDoiActionPerformed
 
         String[] annotators = {"wseg", "pos", "ner", "parse"};
@@ -286,27 +407,82 @@ public class NewJFrame extends javax.swing.JFrame {
             Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        // Extract words from annotation
-        List<String> words = new ArrayList<>();
+
+        String text = areaInput.getText();
+        int currentPos = 0;
+        int wordIndex = 0 ;
+
+        
         for (Word item : annotation.getWords()) {
             String[] fields = item.toString().split("\t");
-            if (fields.length > 3 && "N".equals(fields[2])) {
-                words.add(item.getForm());
+            if (fields.length > 3) {
+                String word = item.getForm();
+                int startPos = text.indexOf(word, currentPos);
+                int endPos = startPos + word.length() - 1;
+                if (startPos != -1) {
+                    switch (fields[2]) {
+                        case "N":
+                        {
+                            WordPosition wordPosition = new WordPosition(wordIndex, "N", startPos, endPos);
+                            nounWords.add(wordPosition);
+                            break;
+                        } 
+                        case "V":
+                        {
+                            WordPosition wordPosition = new WordPosition(wordIndex, "V", startPos, endPos);                            
+                            verbWords.add(wordPosition);
+                            break;
+                        }                           
+                        case "A":
+                        {
+                            WordPosition wordPosition = new WordPosition(wordIndex, "A", startPos, endPos);
+                            adjWords.add(wordPosition);
+                            break;
+                        }   
+                        default:
+                            break;
+                    }
+                    currentPos = endPos + 1; // Update current position to search for next word
+                    wordIndex++; // Increment the word index
+                }
             }
         }
 
+        
+
         // Highlight the extracted words in the input text
         // Set the annotated text to the output area (if needed)
-        areaOutput.setText(areaInput.getText());
-
+        //areaOutput.setText(areaInput.getText());
+       System.out.println(annotation.getRawText());
         // Apply highlights to areaOutput
-        findWord(areaOutput, words);
+
 
     }//GEN-LAST:event_btnChuyenDoiActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void btnSave1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSave1ActionPerformed
+        // TODO add your handling code here:
+        Highlighter hl = areaInput.getHighlighter();
+        hl.removeAllHighlights();
+        highlighterAdj(adjWords);
+    }//GEN-LAST:event_btnSave1ActionPerformed
+
+    private void btnSave2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSave2ActionPerformed
+        // TODO add your handling code here:
+        Highlighter hl = areaInput.getHighlighter();
+        hl.removeAllHighlights();
+        highlighterVerd(verbWords);
+    }//GEN-LAST:event_btnSave2ActionPerformed
+
+    private void btnSave3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSave3ActionPerformed
+        // TODO add your handling code here:
+        Highlighter hl = areaInput.getHighlighter();
+        hl.removeAllHighlights();
+        highlighterNoun(nounWords);
+    }//GEN-LAST:event_btnSave3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -349,6 +525,9 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnChonFile;
     private javax.swing.JButton btnChuyenDoi;
     private javax.swing.JButton btnSave;
+    private javax.swing.JButton btnSave1;
+    private javax.swing.JButton btnSave2;
+    private javax.swing.JButton btnSave3;
     private javax.swing.JButton jButton5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane3;
