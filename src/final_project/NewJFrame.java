@@ -11,6 +11,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -19,9 +21,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Document;
 import javax.swing.text.Highlighter;
+import javax.swing.text.JTextComponent;
 import vn.pipeline.Annotation;
 import vn.pipeline.VnCoreNLP;
+import vn.pipeline.Word;
 
 /**
  *
@@ -72,6 +77,30 @@ public class NewJFrame extends javax.swing.JFrame {
             } catch (BadLocationException ex) {
                 ex.printStackTrace();
             }
+        }
+    }
+    public void findWord(JTextComponent text, List<String> patterns) {
+        try {
+            // Get the document and its text
+            Document doc = text.getDocument();
+            String txt = doc.getText(0, doc.getLength());
+            Highlighter highlighter = text.getHighlighter();
+            Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(Color.YELLOW);
+
+            // Remove previous highlights
+            highlighter.removeAllHighlights();
+
+            // Highlight each pattern
+            for (String pattern : patterns) {
+                int pos = 0;
+                while ((pos = txt.toUpperCase().indexOf(pattern.toUpperCase(), pos)) >= 0) {
+                    int end = pos + pattern.length();
+                    highlighter.addHighlight(pos, end, painter);
+                    pos = end;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Handle the exception, e.g., log it
         }
     }
     /**
@@ -220,23 +249,37 @@ public class NewJFrame extends javax.swing.JFrame {
 
     private void btnChuyenDoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChuyenDoiActionPerformed
         // TODO add your handling code here:
-        String[] annotators = {"wseg", "pos", "ner", "parse"}; 
-        VnCoreNLP pipeline = null; 
+        String[] annotators = {"wseg", "pos", "ner", "parse"};
+        VnCoreNLP pipeline = null;
         try {
             pipeline = new VnCoreNLP(annotators);
         } catch (IOException ex) {
             Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-    
-        String str = areaInput.getText(); 
-        
-        Annotation annotation = new Annotation(str); 
-        try { 
+
+        String str = areaInput.getText();
+        Annotation annotation = new Annotation(str);
+        try {
             pipeline.annotate(annotation);
         } catch (IOException ex) {
             Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-        areaOutput.setText(annotation.toString());
+
+        // Extract words from annotation
+        List<String> words = new ArrayList<>();
+        for (Word item : annotation.getWords()) {
+            String[] fields = item.toString().split("\t");
+            if (fields.length > 3 && "N".equals(fields[2])) {
+                words.add(item.getForm());
+            }
+        }
+
+        // Highlight the extracted words in the input text
+        // Set the annotated text to the output area (if needed)
+        areaOutput.setText(areaInput.getText());
+
+        // Apply highlights to areaOutput
+        findWord(areaOutput, words);
     }//GEN-LAST:event_btnChuyenDoiActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
