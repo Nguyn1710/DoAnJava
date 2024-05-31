@@ -278,64 +278,71 @@ public class NewJFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e);
         }
         
-        ///////////////////////////////////////////////////
-        String[] annotators = {"wseg", "pos", "ner", "parse"};
-        VnCoreNLP pipeline = null;
-        try {
-            pipeline = new VnCoreNLP(annotators);
-        } catch (IOException ex) {
-            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        String str = areaInput.getText();
-        Annotation annotation = new Annotation(str);
-        try {
-            pipeline.annotate(annotation);
-        } catch (IOException ex) {
-            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-
-        String text = areaInput.getText();
-        int currentPos = 0;
-        int wordIndex = 0 ;
-
-        
-        for (Word item : annotation.getWords()) {
-            String[] fields = item.toString().split("\t");
-            if (fields.length > 3) {
-                String word = item.getForm();
-                int startPos = text.indexOf(word, currentPos);
-                int endPos = startPos + word.length() - 1;
-                if (startPos != -1) {
-                    switch (fields[2]) {
-                        case "N":
-                        {
-                            WordPosition wordPosition = new WordPosition(wordIndex, "N", startPos, endPos);
-                            nounWords.add(wordPosition);
-                            break;
-                        } 
-                        case "V":
-                        {
-                            WordPosition wordPosition = new WordPosition(wordIndex, "V", startPos, endPos);                            
-                            verbWords.add(wordPosition);
-                            break;
-                        }                           
-                        case "A":
-                        {
-                            WordPosition wordPosition = new WordPosition(wordIndex, "A", startPos, endPos);
-                            adjWords.add(wordPosition);
-                            break;
-                        }   
-                        default:
-                            break;
-                    }
-                    currentPos = endPos + 1; // Update current position to search for next word
-                    wordIndex++; // Increment the word index
-                }
-            }
-        }
+//        ///////////////////////////////////////////////////
+//        String[] annotators = {"wseg", "pos", "ner", "parse"};
+//        VnCoreNLP pipeline = null;
+//        try {
+//            pipeline = new VnCoreNLP(annotators);
+//        } catch (IOException ex) {
+//            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//
+//        String str = areaInput.getText();
+//        Annotation annotation = new Annotation(str);
+//        try {
+//            pipeline.annotate(annotation);
+//        } catch (IOException ex) {
+//            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//
+//
+//        String text = areaInput.getText();
+//        int currentPos = 0;
+//        int wordIndex = 0 ;
+//
+//        
+//        for (Word item : annotation.getWords()) {
+//            String[] fields = item.toString().split("\t");
+//            if (fields.length > 3) {
+//                String word = item.getForm();
+//                int startPos = text.indexOf(word, currentPos);
+//                int endPos = startPos + word.length() - 1;
+//                if (startPos != -1) {
+//                    switch (fields[2]) {
+//                        case "N":
+//                        {
+//                            WordPosition wordPosition = new WordPosition(wordIndex, "N", startPos, endPos);
+//                            nounWords.add(wordPosition);
+//                            break;
+//                        } 
+//                        case "V":
+//                        {
+//                            WordPosition wordPosition = new WordPosition(wordIndex, "V", startPos, endPos);                            
+//                            verbWords.add(wordPosition);
+//                            break;
+//                        }                           
+//                        case "A":
+//                        {
+//                            WordPosition wordPosition = new WordPosition(wordIndex, "A", startPos, endPos);
+//                            adjWords.add(wordPosition);
+//                            break;
+//                        }   
+//                        default:
+//                            break;
+//                    }
+//                    currentPos = endPos + 1; // Update current position to search for next word
+//                    wordIndex++; // Increment the word index
+//                }
+//            }
+//        }
         ///////////////////////////////////////////////////////////////
+        Utilities uti = new Utilities();
+        String str = areaInput.getText();
+//        
+//        Annotation annotation = new Annotation(str);
+//        annotation = uti.PhanTich(str);
+        
+        uti.PhanTachLoaiTu(str, nounWords, verbWords, adjWords);
     }//GEN-LAST:event_btnChonFileActionPerformed
 
     

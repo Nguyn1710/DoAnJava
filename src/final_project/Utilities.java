@@ -31,6 +31,11 @@ public class Utilities {
         }
 
         Annotation annotation = new Annotation(input);
+        try {
+            pipeline.annotate(annotation);
+        } catch (IOException ex) {
+            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return annotation;
     }
     
@@ -126,13 +131,6 @@ public class Utilities {
     }
     
     // Higlight 
-    public void ()
-    {
-        Highlighter hl = areaInput.getHighlighter();
-        hl.removeAllHighlights();
-        highlighterNoun(nounWords);
-    }                                        
-
-    }
+   
     
 }
