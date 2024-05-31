@@ -496,7 +496,7 @@ public class DoAn extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSelectDocumentActionPerformed
 
     private void btnHNounActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHNounActionPerformed
-        btnHNoun.setEnabled(false);
+        //btnHNoun.setEnabled(false);
         highlighterNoun(nounWords, colorN);
         // Ensure the areaInput component is not null and has selected text
 
@@ -515,6 +515,7 @@ public class DoAn extends javax.swing.JFrame {
             data[i][3] = lst.get(i).getPOS();
         }
 
+        //System.out.println("word :"+lst.get(i).getWord(););
         jTable1.setModel(new javax.swing.table.DefaultTableModel(data, columnNames));
         System.out.println("Table updated with " + data.length + " rows.");
     }
@@ -522,7 +523,7 @@ public class DoAn extends javax.swing.JFrame {
         // TODO add your handling code here:
 //        Highlighter hl2 = areaInput.getHighlighter(); // để xóa higlight cũ
 //        hl2.removeAllHighlights();
-        btnHVerb.setEnabled(false);
+        //btnHVerb.setEnabled(false);
         highlighterVerd(verbWords, colorV);
     }//GEN-LAST:event_btnHVerbActionPerformed
 
@@ -530,7 +531,7 @@ public class DoAn extends javax.swing.JFrame {
         // TODO add your handling code here:
 //        Highlighter hl3 = areaInput.getHighlighter();// để xóa higlight cũ
 //        hl3.removeAllHighlights();
-        btnHAdj.setEnabled(false);
+        //btnHAdj.setEnabled(false);
         highlighterAdj(adjWords, colorA);
     }//GEN-LAST:event_btnHAdjActionPerformed
 

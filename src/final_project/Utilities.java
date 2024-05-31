@@ -57,19 +57,19 @@ public class Utilities {
                     switch (fields[2]) {
                         case "N":
                         {
-                            WordPosition wordPosition = new WordPosition(wordIndex, "N", startPos, endPos);
+                            WordPosition wordPosition = new WordPosition(wordIndex, word, "N", startPos, endPos);
                             nounWords.add(wordPosition);
                             break;
                         } 
                         case "V":
                         {
-                            WordPosition wordPosition = new WordPosition(wordIndex, "V", startPos, endPos);                            
+                            WordPosition wordPosition = new WordPosition(wordIndex, word,"V", startPos, endPos);                            
                             verbWords.add(wordPosition);
                             break;
                         }                           
                         case "A":
                         {
-                            WordPosition wordPosition = new WordPosition(wordIndex, "A", startPos, endPos);
+                            WordPosition wordPosition = new WordPosition(wordIndex, word, "A", startPos, endPos);
                             adjWords.add(wordPosition);
                             break;
                         }   
@@ -103,19 +103,19 @@ public class Utilities {
                     switch (fields[2]) {
                         case "N":
                         {
-                            WordPosition wordPosition = new WordPosition(wordIndex, "N", startPos, endPos);
+                            WordPosition wordPosition = new WordPosition(wordIndex, word, "N", startPos, endPos);
                             nounWords.add(wordPosition);
                             break;
                         } 
                         case "V":
                         {
-                            WordPosition wordPosition = new WordPosition(wordIndex, "V", startPos, endPos);                            
+                            WordPosition wordPosition = new WordPosition(wordIndex, word,"V", startPos, endPos);                            
                             verbWords.add(wordPosition);
                             break;
                         }                           
                         case "A":
                         {
-                            WordPosition wordPosition = new WordPosition(wordIndex, "A", startPos, endPos);
+                            WordPosition wordPosition = new WordPosition(wordIndex, word, "A", startPos, endPos);
                             adjWords.add(wordPosition);
                             break;
                         }   
