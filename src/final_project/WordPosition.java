@@ -31,6 +31,14 @@ class WordPosition {
         this.endPos = endPos;
     }
 
+    public WordPosition(String word, int startPos, int endPos, String POS) {
+        this.word = word;
+        this.POS = POS;
+        this.startPos = startPos;
+        this.endPos = endPos;
+    }
+    
+
     public String getWord() {
         return word;
     }

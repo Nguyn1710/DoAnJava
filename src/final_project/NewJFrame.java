@@ -24,7 +24,7 @@ import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Document;
 import javax.swing.text.Highlighter;
 import javax.swing.text.JTextComponent;
-import sun.jvm.hotspot.debugger.cdbg.Sym;
+//import sun.jvm.hotspot.debugger.cdbg.Sym;
 import vn.pipeline.Annotation;
 import vn.pipeline.VnCoreNLP;
 import vn.pipeline.Word;

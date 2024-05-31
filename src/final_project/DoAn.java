@@ -12,12 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
-
-
-
 
 /**
  *
@@ -26,77 +26,111 @@ import javax.swing.text.Highlighter;
 public class DoAn extends javax.swing.JFrame {
 
     // Color
-    Color colorN = new Color(255,255,51);
-    Color colorV = new Color(102,255,51);
-    Color colorA = new Color(102,102,255);
-    
-    
+    Color colorN = new Color(255, 255, 51);
+    Color colorV = new Color(102, 255, 51);
+    Color colorA = new Color(102, 102, 255);
+
     //List 
     List<WordPosition> nounWords = new ArrayList<>();
     List<WordPosition> verbWords = new ArrayList<>();
     List<WordPosition> adjWords = new ArrayList<>();
+    List<WordPosition> lst = new ArrayList<WordPosition>();
     // Extract words from annotation
     List<WordPosition> wordsWithPositions = new ArrayList<>();
-    
+
     //Class
     Utilities uti = new Utilities();
-    
+
     public DoAn() {
         initComponents();
-        Color color = new Color(51,102,255);
+        Color color = new Color(51, 102, 255);
         //getContentPane().setBackground(new Color.red);
     }
 
     public void highlighterNoun(List<WordPosition> patterns, Color colorN) {
-    Highlighter hl = areaInput.getHighlighter();
-    //hl.removeAllHighlights();
-    Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(colorN);
+        Highlighter hl = areaInput.getHighlighter();
+        //hl.removeAllHighlights();
+        Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(colorN);
 
-    for (WordPosition pattern : patterns) {
-        
-        try {
-            int start = pattern.getStartPos();
-            int end = pattern.getEndPos() + 1; // End position should be inclusive
-            hl.addHighlight(start, end, painter);
-        } catch (BadLocationException ex) {
-            ex.printStackTrace();
+        for (WordPosition pattern : patterns) {
+            try {
+                int start = pattern.getStartPos();
+                int end = pattern.getEndPos() + 1; // End position should be inclusive
+                hl.addHighlight(start, end, painter);
+
+                // Debugging statement to print the list size after adding
+                System.out.println("List Size: " + lst.size());
+            } catch (BadLocationException ex) {
+                ex.printStackTrace();
             }
         }
+
+        // Optionally, you can add the highlighted words to the list outside the loop
+        for (WordPosition pattern : patterns) {
+            WordPosition conceptInfo = new WordPosition(pattern.getWord(), pattern.getStartPos(), pattern.getEndPos(), "Danh tu");
+            lst.add(conceptInfo);
+            sortList(lst);
+            updateTable();
+        }
     }
+
     public void highlighterVerd(List<WordPosition> patterns, Color colorV) {
-    Highlighter hl = areaInput.getHighlighter();
-    //hl.removeAllHighlights();
-    Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(colorV);
+        Highlighter hl = areaInput.getHighlighter();
+        //hl.removeAllHighlights();
+        Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(colorV);
 
-    for (WordPosition pattern : patterns) {
-        
-        try {
-            int start = pattern.getStartPos();
-            int end = pattern.getEndPos() + 1; // End position should be inclusive
-            hl.addHighlight(start, end, painter);
-        } catch (BadLocationException ex) {
-            ex.printStackTrace();
+        for (WordPosition pattern : patterns) {
+            try {
+                int start = pattern.getStartPos();
+                int end = pattern.getEndPos() + 1; // End position should be inclusive
+                hl.addHighlight(start, end, painter);
+
+                // Debugging statement to print the list size after adding
+                System.out.println("List Size: " + lst.size());
+            } catch (BadLocationException ex) {
+                ex.printStackTrace();
             }
         }
+
+        // Optionally, you can add the highlighted words to the list outside the loop
+        for (WordPosition pattern : patterns) {
+            WordPosition conceptInfo = new WordPosition(pattern.getWord(), pattern.getStartPos(), pattern.getEndPos(), "Dong tu");
+            lst.add(conceptInfo);
+            sortList(lst);
+            updateTable();
+
+        }
     }
+
     public void highlighterAdj(List<WordPosition> patterns, Color colorA) {
-    Highlighter hl = areaInput.getHighlighter();
+        Highlighter hl = areaInput.getHighlighter();
 //    hl.removeAllHighlights();
 //    Color tim = new Color(102,102,255);
-    Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(colorA);
+        Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(colorA);
 
-    for (WordPosition pattern : patterns) {
-        
-        try {
-            int start = pattern.getStartPos();
-            int end = pattern.getEndPos() + 1; // End position should be inclusive
-            hl.addHighlight(start, end, painter);
-        } catch (BadLocationException ex) {
-            ex.printStackTrace();
+        for (WordPosition pattern : patterns) {
+            try {
+                int start = pattern.getStartPos();
+                int end = pattern.getEndPos() + 1; // End position should be inclusive
+                hl.addHighlight(start, end, painter);
+
+                // Debugging statement to print the list size after adding
+                System.out.println("List Size: " + lst.size());
+            } catch (BadLocationException ex) {
+                ex.printStackTrace();
             }
         }
+
+        // Optionally, you can add the highlighted words to the list outside the loop
+        for (WordPosition pattern : patterns) {
+            WordPosition conceptInfo = new WordPosition(pattern.getWord(), pattern.getStartPos(), pattern.getEndPos(), "Tinh tu");
+            lst.add(conceptInfo);
+            sortList(lst);
+            updateTable();
+
+        }
     }
-    
+
     public void highlighterAll(List<WordPosition> patterns, Color colorN, Color colorV, Color colorA) {
         Highlighter hl = areaInput.getHighlighter();
         // hl.removeAllHighlights(); // Uncomment if you want to clear previous highlights
@@ -126,6 +160,7 @@ public class DoAn extends javax.swing.JFrame {
             }
         }
     }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -160,6 +195,7 @@ public class DoAn extends javax.swing.JFrame {
             }
         });
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -169,10 +205,10 @@ public class DoAn extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
         jScrollPane1 = new javax.swing.JScrollPane();
         areaInput = new javax.swing.JTextPane();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         btnSelectDocument = new javax.swing.JButton();
         txtTenFile = new javax.swing.JTextField();
@@ -218,11 +254,25 @@ public class DoAn extends javax.swing.JFrame {
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jScrollPane2.setViewportView(jTextArea2);
-
         jScrollPane1.setViewportView(areaInput);
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Word", "Start", "End", "Label"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -231,17 +281,17 @@ public class DoAn extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 691, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 683, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(14, 14, 14))
+                .addGap(42, 42, 42)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 655, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(16, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jScrollPane1)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE))
+                    .addComponent(jScrollPane3)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -417,47 +467,71 @@ public class DoAn extends javax.swing.JFrame {
     private void btnSelectDocumentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectDocumentActionPerformed
         // TODO add your handling code here:
         JFileChooser chooser = new JFileChooser();
-        chooser.showOpenDialog(null);
-        File f = chooser.getSelectedFile();
-        String filename = f.getAbsolutePath();
-        txtTenFile.setText(filename);
-        
-        try{
-            FileReader reader = new FileReader(filename);
-            BufferedReader br = new BufferedReader(reader);
-            areaInput.read(br,null);
-            br.close();
-            areaInput.requestFocus();
+
+        // Add a file filter for text files
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Text Files", "txt");
+        chooser.setFileFilter(filter);
+
+        int returnVal = chooser.showOpenDialog(null);
+
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File f = chooser.getSelectedFile();
+            String filename = f.getAbsolutePath();
+            txtTenFile.setText(filename);
+            try {
+                FileReader reader = new FileReader(filename);
+                BufferedReader br = new BufferedReader(reader);
+                areaInput.read(br, null);
+                br.close();
+                areaInput.requestFocus();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+
+            //phân tích 
+            String str = areaInput.getText();
+
+            uti.PhanTachLoaiTu(str, nounWords, verbWords, adjWords);
         }
-        catch(Exception e){
-            JOptionPane.showMessageDialog(null, e);
-        }
-        
-        //phân tích 
-        String str = areaInput.getText();
-        
-        uti.PhanTachLoaiTu(str, nounWords, verbWords, adjWords);
     }//GEN-LAST:event_btnSelectDocumentActionPerformed
 
     private void btnHNounActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHNounActionPerformed
-        // TODO add your handling code here:
-//        Highlighter hl1 = areaInput.getHighlighter();// để xóa higlight cũ
-//        hl1.removeAllHighlights();
-        highlighterNoun(nounWords,colorN);
+        btnHNoun.setEnabled(false);
+        highlighterNoun(nounWords, colorN);
+        // Ensure the areaInput component is not null and has selected text
+
+        // Update JTable
+
     }//GEN-LAST:event_btnHNounActionPerformed
 
+    private void updateTable() {
+        String[] columnNames = {"Word", "Start", "End", "Label"};
+        Object[][] data = new Object[lst.size()][4];
+
+        for (int i = 0; i < lst.size(); i++) {
+            data[i][0] = lst.get(i).getWord();
+            data[i][1] = lst.get(i).getStartPos();
+            data[i][2] = lst.get(i).getEndPos();
+            data[i][3] = lst.get(i).getPOS();
+        }
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(data, columnNames));
+        System.out.println("Table updated with " + data.length + " rows.");
+    }
     private void btnHVerbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHVerbActionPerformed
         // TODO add your handling code here:
 //        Highlighter hl2 = areaInput.getHighlighter(); // để xóa higlight cũ
 //        hl2.removeAllHighlights();
-        highlighterNoun(verbWords,colorV);
+        btnHVerb.setEnabled(false);
+        highlighterVerd(verbWords, colorV);
     }//GEN-LAST:event_btnHVerbActionPerformed
 
     private void btnHAdjActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHAdjActionPerformed
         // TODO add your handling code here:
 //        Highlighter hl3 = areaInput.getHighlighter();// để xóa higlight cũ
 //        hl3.removeAllHighlights();
-        highlighterNoun(adjWords,colorA);
+        btnHAdj.setEnabled(false);
+        highlighterAdj(adjWords, colorA);
     }//GEN-LAST:event_btnHAdjActionPerformed
 
     private void btnHiglihtAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHiglihtAllActionPerformed
@@ -471,10 +545,14 @@ public class DoAn extends javax.swing.JFrame {
         // TODO add your handling code here:
         Highlighter hl2 = areaInput.getHighlighter();
         hl2.removeAllHighlights();
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
     }//GEN-LAST:event_btnClearActionPerformed
 
-    
-
+    private void sortList(List<WordPosition> classWord) {
+        // Sắp xếp danh sách conceptInfos theo giá trị của trường StartPosition theo thứ tự tăng dần
+        classWord.sort((a, b) -> Integer.compare(a.getStartPos(), b.getEndPos()));
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextPane areaInput;
     private javax.swing.JButton btnClear;
@@ -494,8 +572,8 @@ public class DoAn extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField txtTenFile;
     // End of variables declaration//GEN-END:variables
