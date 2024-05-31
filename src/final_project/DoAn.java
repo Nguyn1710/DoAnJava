@@ -39,7 +39,7 @@ public class DoAn extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        areaInput = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea2 = new javax.swing.JTextArea();
         jPanel3 = new javax.swing.JPanel();
@@ -87,9 +87,9 @@ public class DoAn extends javax.swing.JFrame {
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        areaInput.setColumns(20);
+        areaInput.setRows(5);
+        jScrollPane1.setViewportView(areaInput);
 
         jTextArea2.setColumns(20);
         jTextArea2.setRows(5);
@@ -213,8 +213,6 @@ public class DoAn extends javax.swing.JFrame {
         );
 
         jButton4.getAccessibleContext().setAccessibleName("Noun ");
-        jButton5.getAccessibleContext().setAccessibleName("Verd");
-        jButton6.getAccessibleContext().setAccessibleName("Adj");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -296,6 +294,7 @@ public class DoAn extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextArea areaInput;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton2;
@@ -314,7 +313,6 @@ public class DoAn extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;

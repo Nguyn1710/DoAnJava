@@ -156,7 +156,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTextArea" name="jTextArea1">
+            <Component class="javax.swing.JTextArea" name="areaInput">
               <Properties>
                 <Property name="columns" type="int" value="20"/>
                 <Property name="rows" type="int" value="5"/>
@@ -322,9 +322,6 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Verd"/>
           </Properties>
-          <AccessibilityProperties>
-            <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Verd"/>
-          </AccessibilityProperties>
         </Component>
         <Component class="javax.swing.JButton" name="jButton6">
           <Properties>
@@ -333,9 +330,6 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Adj"/>
           </Properties>
-          <AccessibilityProperties>
-            <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Adj"/>
-          </AccessibilityProperties>
         </Component>
         <Component class="javax.swing.JButton" name="jButton7">
           <Properties>

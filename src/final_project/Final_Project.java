@@ -26,6 +26,7 @@ public class Final_Project {
         String[] annotators = {"wseg", "pos", "ner", "parse"};
         VnCoreNLP pipeline = new VnCoreNLP(annotators);
 
+        // input nhập vào 
         String str = "Hương Trà đang lướt facebook";
 
         Annotation annotation = new Annotation(str);
@@ -35,7 +36,7 @@ public class Final_Project {
             System.out.println(item.toString().split("\t")[0]);
         }
 
-//        System.out.println(annotation.toString());
+     System.out.println(annotation.toString());
         // 1    Ông                 Nc  O       4   sub 
         // 2    Nguyễn_Khắc_Chúc    Np  B-PER   1   nmod
         // 3    đang                R   O       4   adv

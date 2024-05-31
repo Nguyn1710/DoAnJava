@@ -400,7 +400,7 @@ public class NewJFrame extends javax.swing.JFrame {
         }
 
         String str = areaInput.getText();
-        Annotation annotation = new Annotation(str);
+        Annotation annotation = new Annotation(str); 
         try {
             pipeline.annotate(annotation);
         } catch (IOException ex) {
