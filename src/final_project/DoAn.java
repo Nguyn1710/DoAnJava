@@ -40,6 +40,11 @@ public class DoAn extends javax.swing.JFrame {
 
     //Class
     Utilities uti = new Utilities();
+    
+    //check 
+    int checkN = 0 ;
+    int checkV = 0 ;
+    int checkA = 0 ;
 
     public DoAn() {
         initComponents();
@@ -68,9 +73,12 @@ public class DoAn extends javax.swing.JFrame {
         // Optionally, you can add the highlighted words to the list outside the loop
         for (WordPosition pattern : patterns) {
             WordPosition conceptInfo = new WordPosition(pattern.getWord(), pattern.getStartPos(), pattern.getEndPos(), "Danh tu");
-            lst.add(conceptInfo);
-            sortList(lst);
-            updateTable();
+            if (checkN == 0)
+            {
+                lst.add(conceptInfo);
+                sortList(lst);
+                updateTable();
+            }
         }
     }
 
@@ -95,9 +103,12 @@ public class DoAn extends javax.swing.JFrame {
         // Optionally, you can add the highlighted words to the list outside the loop
         for (WordPosition pattern : patterns) {
             WordPosition conceptInfo = new WordPosition(pattern.getWord(), pattern.getStartPos(), pattern.getEndPos(), "Dong tu");
-            lst.add(conceptInfo);
-            sortList(lst);
-            updateTable();
+            if (checkV == 0)
+            {
+                lst.add(conceptInfo);
+                sortList(lst);
+                updateTable();
+            }
 
         }
     }
@@ -124,9 +135,12 @@ public class DoAn extends javax.swing.JFrame {
         // Optionally, you can add the highlighted words to the list outside the loop
         for (WordPosition pattern : patterns) {
             WordPosition conceptInfo = new WordPosition(pattern.getWord(), pattern.getStartPos(), pattern.getEndPos(), "Tinh tu");
-            lst.add(conceptInfo);
-            sortList(lst);
-            updateTable();
+            if (checkA == 0)
+            {
+                lst.add(conceptInfo);
+                sortList(lst);
+                updateTable();
+            }
 
         }
     }
@@ -498,6 +512,7 @@ public class DoAn extends javax.swing.JFrame {
     private void btnHNounActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHNounActionPerformed
         //btnHNoun.setEnabled(false);
         highlighterNoun(nounWords, colorN);
+        checkN =1;
         // Ensure the areaInput component is not null and has selected text
 
         // Update JTable
@@ -525,6 +540,7 @@ public class DoAn extends javax.swing.JFrame {
 //        hl2.removeAllHighlights();
         //btnHVerb.setEnabled(false);
         highlighterVerd(verbWords, colorV);
+        checkV = 1; 
     }//GEN-LAST:event_btnHVerbActionPerformed
 
     private void btnHAdjActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHAdjActionPerformed
@@ -533,6 +549,7 @@ public class DoAn extends javax.swing.JFrame {
 //        hl3.removeAllHighlights();
         //btnHAdj.setEnabled(false);
         highlighterAdj(adjWords, colorA);
+        checkA=1;
     }//GEN-LAST:event_btnHAdjActionPerformed
 
     private void btnHiglihtAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHiglihtAllActionPerformed
