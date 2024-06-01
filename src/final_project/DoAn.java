@@ -332,7 +332,7 @@ public class DoAn extends javax.swing.JFrame {
         });
 
         btnNER.setBackground(new java.awt.Color(255, 51, 51));
-        btnNER.setText("jButton4");
+        btnNER.setText("Proper Noun");
         btnNER.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNERActionPerformed(evt);
