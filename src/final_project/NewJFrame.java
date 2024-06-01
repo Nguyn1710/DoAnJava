@@ -39,6 +39,7 @@ public class NewJFrame extends javax.swing.JFrame {
     List<WordPosition> nounWords = new ArrayList<>();
     List<WordPosition> verbWords = new ArrayList<>();
     List<WordPosition> adjWords = new ArrayList<>();
+    List<WordPosition> nerWords = new ArrayList<>();
     // Extract words from annotation
     List<WordPosition> wordsWithPositions = new ArrayList<>();
     
@@ -342,7 +343,7 @@ public class NewJFrame extends javax.swing.JFrame {
 //        Annotation annotation = new Annotation(str);
 //        annotation = uti.PhanTich(str);
         
-        uti.PhanTachLoaiTu(str, nounWords, verbWords, adjWords);
+        uti.PhanTachLoaiTu(str, nounWords, verbWords, adjWords,nerWords);
     }//GEN-LAST:event_btnChonFileActionPerformed
 
     

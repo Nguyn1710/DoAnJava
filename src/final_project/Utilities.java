@@ -42,7 +42,7 @@ public class Utilities {
     
     // Phân tách loại từ : phân tách các từ cùng laoi5 vào cùng 1 mảng , text là input và annotation là kết quả khi phân tachs
     //dữ từ từ text 
-    public void PhanTachLoaiTu (String text, Annotation annotation, List<WordPosition> nounWords, List<WordPosition> verbWords,List<WordPosition> adjWords){
+    public void PhanTachLoaiTu (String text, Annotation annotation, List<WordPosition> nounWords, List<WordPosition> verbWords,List<WordPosition> adjWords, List<WordPosition> nerWords){
         int currentPos = 0;
         int wordIndex = 0 ;
 
@@ -72,7 +72,13 @@ public class Utilities {
                             WordPosition wordPosition = new WordPosition(wordIndex, word, "A", startPos, endPos);
                             adjWords.add(wordPosition);
                             break;
-                        }   
+                        }  
+                        case "Np":
+                        {
+                            WordPosition wordPosition = new WordPosition(wordIndex, word, "Np", startPos, endPos);
+                            nerWords.add(wordPosition);
+                            break;
+                        }  
                         default:
                             break;
                     }
@@ -80,11 +86,14 @@ public class Utilities {
                     wordIndex++; // Increment the word index
                 }
             }
+            
         }
+   
+
 
     }
     // phân tách khi chỉ có input  
-    public void PhanTachLoaiTu (String text, List<WordPosition> nounWords, List<WordPosition> verbWords,List<WordPosition> adjWords){
+    public void PhanTachLoaiTu (String text, List<WordPosition> nounWords, List<WordPosition> verbWords,List<WordPosition> adjWords, List<WordPosition> nerWords){
         Annotation annotation = new Annotation(text);
         annotation = PhanTich(text);
         
@@ -119,6 +128,12 @@ public class Utilities {
                             adjWords.add(wordPosition);
                             break;
                         }   
+                        case "Np":
+                        {
+                            WordPosition wordPosition = new WordPosition(wordIndex, word, "Np", startPos, endPos);
+                            nerWords.add(wordPosition);
+                            break;
+                        }  
                         default:
                             break;
                     }
@@ -127,10 +142,17 @@ public class Utilities {
                 }
             }
         }
+        for (WordPosition wp : nerWords) {
+       // System.out.println("Word Index: " + wp.getWordIndex());
+        System.out.println("Word: " + wp.getWord());
+        System.out.println("Type: " + wp.getPOS());
+        System.out.println("Start Position: " + wp.getStartPos());
+        System.out.println("End Position: " + wp.getEndPos());
+        System.out.println("--------------");
 
-    }
+        }
     
-    // Higlight 
+    }
    
     
 }

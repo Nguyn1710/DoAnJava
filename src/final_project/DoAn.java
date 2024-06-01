@@ -4,6 +4,7 @@
  */
 package final_project;
 
+import edu.emory.mathcs.nlp.component.template.util.NLPMode;
 import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.File;
@@ -29,11 +30,13 @@ public class DoAn extends javax.swing.JFrame {
     Color colorN = new Color(255, 255, 51);
     Color colorV = new Color(102, 255, 51);
     Color colorA = new Color(102, 102, 255);
+    Color colorNER = new Color(255,51,51);
 
     //List 
     List<WordPosition> nounWords = new ArrayList<>();
     List<WordPosition> verbWords = new ArrayList<>();
     List<WordPosition> adjWords = new ArrayList<>();
+    List<WordPosition> nerWords = new ArrayList<>();
     List<WordPosition> lst = new ArrayList<WordPosition>();
     // Extract words from annotation
     List<WordPosition> wordsWithPositions = new ArrayList<>();
@@ -45,6 +48,7 @@ public class DoAn extends javax.swing.JFrame {
     int checkN = 0 ;
     int checkV = 0 ;
     int checkA = 0 ;
+    int checkNp = 0 ;
 
     public DoAn() {
         initComponents();
@@ -52,7 +56,7 @@ public class DoAn extends javax.swing.JFrame {
         //getContentPane().setBackground(new Color.red);
     }
 
-    public void highlighterNoun(List<WordPosition> patterns, Color colorN) {
+    public void highlighteLoaiTu(List<WordPosition> patterns, Color colorN, int check) {
         Highlighter hl = areaInput.getHighlighter();
         //hl.removeAllHighlights();
         Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(colorN);
@@ -71,77 +75,28 @@ public class DoAn extends javax.swing.JFrame {
         }
 
         // Optionally, you can add the highlighted words to the list outside the loop
+        String loaiTu = "";
+        if (patterns.get(1).getPOS().equals("N")) {
+            loaiTu = "danh từ";
+        } else if (patterns.get(1).getPOS().equals("A")) {
+            loaiTu = "tính từ";
+        } else if (patterns.get(1).getPOS().equals("V")) {
+            loaiTu = "động từ";
+        } else if (patterns.get(1).getPOS().equals("Np")) {
+            loaiTu = "danh từ riêng";
+        } else {
+            loaiTu = "loại từ không xác định";
+        }
+
+
         for (WordPosition pattern : patterns) {
-            WordPosition conceptInfo = new WordPosition(pattern.getWord(), pattern.getStartPos(), pattern.getEndPos(), "Danh tu");
-            if (checkN == 0)
+            WordPosition conceptInfo = new WordPosition(pattern.getWord(), pattern.getStartPos(), pattern.getEndPos(), loaiTu);
+            if (check == 0)
             {
                 lst.add(conceptInfo);
                 sortList(lst);
                 updateTable();
             }
-        }
-    }
-
-    public void highlighterVerd(List<WordPosition> patterns, Color colorV) {
-        Highlighter hl = areaInput.getHighlighter();
-        //hl.removeAllHighlights();
-        Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(colorV);
-
-        for (WordPosition pattern : patterns) {
-            try {
-                int start = pattern.getStartPos();
-                int end = pattern.getEndPos() + 1; // End position should be inclusive
-                hl.addHighlight(start, end, painter);
-
-                // Debugging statement to print the list size after adding
-                System.out.println("List Size: " + lst.size());
-            } catch (BadLocationException ex) {
-                ex.printStackTrace();
-            }
-        }
-
-        // Optionally, you can add the highlighted words to the list outside the loop
-        for (WordPosition pattern : patterns) {
-            WordPosition conceptInfo = new WordPosition(pattern.getWord(), pattern.getStartPos(), pattern.getEndPos(), "Dong tu");
-            if (checkV == 0)
-            {
-                lst.add(conceptInfo);
-                sortList(lst);
-                updateTable();
-            }
-
-        }
-    }
-
-    public void highlighterAdj(List<WordPosition> patterns, Color colorA) {
-        Highlighter hl = areaInput.getHighlighter();
-//    hl.removeAllHighlights();
-//    Color tim = new Color(102,102,255);
-        Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(colorA);
-
-        for (WordPosition pattern : patterns) {
-            try {
-                int start = pattern.getStartPos();
-                int end = pattern.getEndPos() + 1; // End position should be inclusive
-                hl.addHighlight(start, end, painter);
-
-                // Debugging statement to print the list size after adding
-                System.out.println("List Size: " + lst.size());
-            } catch (BadLocationException ex) {
-                ex.printStackTrace();
-            }
-        }
-
-        // Optionally, you can add the highlighted words to the list outside the loop
-        for (WordPosition pattern : patterns) {
-            WordPosition conceptInfo = new WordPosition(pattern.getWord(), pattern.getStartPos(), pattern.getEndPos(), "Tinh tu");
-            if (checkA == 0)
-            {
-                lst.add(conceptInfo);
-                sortList(lst);
-                updateTable();
-            }
-
         }
     }
 
@@ -233,7 +188,7 @@ public class DoAn extends javax.swing.JFrame {
         btnHNoun = new javax.swing.JButton();
         btnHVerb = new javax.swing.JButton();
         btnHAdj = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
+        btnNER = new javax.swing.JButton();
         btnHiglihtAll = new javax.swing.JButton();
         btnClear = new javax.swing.JButton();
 
@@ -376,8 +331,13 @@ public class DoAn extends javax.swing.JFrame {
             }
         });
 
-        jButton7.setBackground(new java.awt.Color(255, 51, 51));
-        jButton7.setText("jButton4");
+        btnNER.setBackground(new java.awt.Color(255, 51, 51));
+        btnNER.setText("jButton4");
+        btnNER.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNERActionPerformed(evt);
+            }
+        });
 
         btnHiglihtAll.setText("Higlight All");
         btnHiglihtAll.addActionListener(new java.awt.event.ActionListener() {
@@ -408,7 +368,7 @@ public class DoAn extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnHAdj, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(btnNER, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(35, 35, 35)
                 .addComponent(btnHiglihtAll, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(38, 38, 38)
@@ -428,7 +388,7 @@ public class DoAn extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnHVerb)
-                            .addComponent(jButton7)))
+                            .addComponent(btnNER)))
                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnHiglihtAll, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -505,14 +465,14 @@ public class DoAn extends javax.swing.JFrame {
             //phân tích 
             String str = areaInput.getText();
 
-            uti.PhanTachLoaiTu(str, nounWords, verbWords, adjWords);
+            uti.PhanTachLoaiTu(str, nounWords, verbWords, adjWords, nerWords);
         }
     }//GEN-LAST:event_btnSelectDocumentActionPerformed
 
     private void btnHNounActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHNounActionPerformed
         //btnHNoun.setEnabled(false);
-        highlighterNoun(nounWords, colorN);
-        checkN =1;
+        highlighteLoaiTu(nounWords, colorN,checkN);
+        checkN = 1;
         // Ensure the areaInput component is not null and has selected text
 
         // Update JTable
@@ -539,8 +499,8 @@ public class DoAn extends javax.swing.JFrame {
 //        Highlighter hl2 = areaInput.getHighlighter(); // để xóa higlight cũ
 //        hl2.removeAllHighlights();
         //btnHVerb.setEnabled(false);
-        highlighterVerd(verbWords, colorV);
-        checkV = 1; 
+        highlighteLoaiTu(verbWords, colorV,checkV);
+        checkV = 1;
     }//GEN-LAST:event_btnHVerbActionPerformed
 
     private void btnHAdjActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHAdjActionPerformed
@@ -548,8 +508,8 @@ public class DoAn extends javax.swing.JFrame {
 //        Highlighter hl3 = areaInput.getHighlighter();// để xóa higlight cũ
 //        hl3.removeAllHighlights();
         //btnHAdj.setEnabled(false);
-        highlighterAdj(adjWords, colorA);
-        checkA=1;
+        highlighteLoaiTu(adjWords, colorA,checkA);
+        checkA = 1;
     }//GEN-LAST:event_btnHAdjActionPerformed
 
     private void btnHiglihtAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHiglihtAllActionPerformed
@@ -567,6 +527,13 @@ public class DoAn extends javax.swing.JFrame {
         model.setRowCount(0);
     }//GEN-LAST:event_btnClearActionPerformed
 
+    private void btnNERActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNERActionPerformed
+        // TODO add your handling code here:
+        
+        highlighteLoaiTu(nerWords, colorNER,checkNp);
+        checkNp = 1;
+    }//GEN-LAST:event_btnNERActionPerformed
+
     private void sortList(List<WordPosition> classWord) {
         // Sắp xếp danh sách conceptInfos theo giá trị của trường StartPosition theo thứ tự tăng dần
         classWord.sort((a, b) -> Integer.compare(a.getStartPos(), b.getEndPos()));
@@ -578,10 +545,10 @@ public class DoAn extends javax.swing.JFrame {
     private javax.swing.JButton btnHNoun;
     private javax.swing.JButton btnHVerb;
     private javax.swing.JButton btnHiglihtAll;
+    private javax.swing.JButton btnNER;
     private javax.swing.JButton btnSelectDocument;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
