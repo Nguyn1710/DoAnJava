@@ -12,6 +12,7 @@ class WordPosition {
     private int index;
     private String word;
     private String POS;
+    private String NER_Label;
     private int startPos;
     private int endPos;
 
@@ -37,6 +38,15 @@ class WordPosition {
         this.startPos = startPos;
         this.endPos = endPos;
     }
+
+    public WordPosition(int index, String word, String POS, String NER_Label, int startPos, int endPos) {
+        this.index = index;
+        this.word = word;
+        this.POS = POS;
+        this.NER_Label = NER_Label;
+        this.startPos = startPos;
+        this.endPos = endPos;
+    }
     
 
     public String getWord() {
@@ -56,6 +66,15 @@ class WordPosition {
     public int getEndPos() {
         return endPos;
     }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public String getNER_Label() {
+        return NER_Label;
+    }
+    
 
     @Override
     public String toString() {
