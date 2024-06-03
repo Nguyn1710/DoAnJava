@@ -36,13 +36,13 @@ public class DoAn extends javax.swing.JFrame {
     Color colorNER = new Color(255, 51, 51);
 
     //List 
-    List<WordPosition> nounWords = new ArrayList<>();
-    List<WordPosition> verbWords = new ArrayList<>();
-    List<WordPosition> adjWords = new ArrayList<>();
-    List<WordPosition> nerWords = new ArrayList<>();
-    List<WordPosition> lst = new ArrayList<WordPosition>();
+    List<Token> nounWords = new ArrayList<>();
+    List<Token> verbWords = new ArrayList<>();
+    List<Token> adjWords = new ArrayList<>();
+    List<Token> nerWords = new ArrayList<>();
+    List<Token> lst = new ArrayList<Token>();
     // Extract words from annotation
-    List<WordPosition> wordsWithPositions = new ArrayList<>();
+    List<Token> tokens = new ArrayList<>();
 
     //Class
     Utilities uti = new Utilities();
@@ -59,12 +59,12 @@ public class DoAn extends javax.swing.JFrame {
         //getContentPane().setBackground(new Color.red);
     }
 
-    public void highlighteLoaiTu(List<WordPosition> patterns, Color colorN, int check) {
+    public void highlighteLoaiTu(List<Token> patterns, Color colorN, int check) {
         Highlighter hl = areaInput.getHighlighter();
         //hl.removeAllHighlights();
         Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(colorN);
 
-        for (WordPosition pattern : patterns) {
+        for (Token pattern : patterns) {
             try {
                 int start = pattern.getStartPos();
                 int end = pattern.getEndPos() + 1; // End position should be inclusive
@@ -91,8 +91,8 @@ public class DoAn extends javax.swing.JFrame {
             loaiTu = "loại từ không xác định";
         }
 
-        for (WordPosition pattern : patterns) {
-            WordPosition conceptInfo = new WordPosition(pattern.getWord(), pattern.getStartPos(), pattern.getEndPos(), loaiTu);
+        for (Token pattern : patterns) {
+            Token conceptInfo = new Token(pattern.getWord(), pattern.getStartPos(), pattern.getEndPos(), loaiTu);
             if (check == 0) {
                 lst.add(conceptInfo);
                 sortList(lst);
@@ -101,11 +101,11 @@ public class DoAn extends javax.swing.JFrame {
         }
     }
 
-    public void highlighterAll(List<WordPosition> patterns, Color colorN, Color colorV, Color colorA) {
+    public void highlighterAll(List<Token> patterns, Color colorN, Color colorV, Color colorA) {
         Highlighter hl = areaInput.getHighlighter();
         // hl.removeAllHighlights(); // Uncomment if you want to clear previous highlights
 
-        for (WordPosition pattern : patterns) {
+        for (Token pattern : patterns) {
             Highlighter.HighlightPainter painter = null;
             switch (pattern.getPOS()) {
                 case "N":
@@ -537,7 +537,7 @@ public class DoAn extends javax.swing.JFrame {
         // TODO add your handling code here:
         Highlighter hl2 = areaInput.getHighlighter();
         hl2.removeAllHighlights();
-        highlighterAll(wordsWithPositions, colorN, colorV, colorA);
+        highlighterAll(tokens, colorN, colorV, colorA);
     }//GEN-LAST:event_btnHiglihtAllActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
@@ -607,7 +607,7 @@ public class DoAn extends javax.swing.JFrame {
                 }
     }//GEN-LAST:event_btnExportActionPerformed
 
-    private void sortList(List<WordPosition> classWord) {
+    private void sortList(List<Token> classWord) {
         // Sắp xếp danh sách conceptInfos theo giá trị của trường StartPosition theo thứ tự tăng dần
         classWord.sort((a, b) -> Integer.compare(a.getStartPos(), b.getEndPos()));
     }

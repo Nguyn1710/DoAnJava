@@ -42,7 +42,7 @@ public class Utilities {
     
     // Phân tách loại từ : phân tách các từ cùng laoi5 vào cùng 1 mảng , text là input và annotation là kết quả khi phân tachs
     //dữ từ từ text 
-    public void PhanTachLoaiTu (String text, Annotation annotation, List<WordPosition> nounWords, List<WordPosition> verbWords,List<WordPosition> adjWords, List<WordPosition> nerWords){
+    public void PhanTachLoaiTu (String text, Annotation annotation, List<Token> nounWords, List<Token> verbWords,List<Token> adjWords, List<Token> nerWords){
         int currentPos = 0;
         int wordIndex = 0 ;
 
@@ -57,25 +57,25 @@ public class Utilities {
                     switch (fields[2]) {
                         case "N":
                         {
-                            WordPosition wordPosition = new WordPosition(wordIndex, word, "N",fields[3], startPos, endPos);
+                            Token wordPosition = new Token(wordIndex, word, "N",fields[3], startPos, endPos);
                             nounWords.add(wordPosition);
                             break;
                         } 
                         case "V":
                         {
-                            WordPosition wordPosition = new WordPosition(wordIndex, word,"V",fields[3], startPos, endPos);                          
+                            Token wordPosition = new Token(wordIndex, word,"V",fields[3], startPos, endPos);                          
                             verbWords.add(wordPosition);
                             break;
                         }                           
                         case "A":
                         {
-                            WordPosition wordPosition = new WordPosition(wordIndex, word, "A",fields[3], startPos, endPos);
+                            Token wordPosition = new Token(wordIndex, word, "A",fields[3], startPos, endPos);
                             adjWords.add(wordPosition);
                             break;
                         }  
                         case "Np":
                         {
-                            WordPosition wordPosition = new WordPosition(wordIndex, word, "Np",fields[3], startPos, endPos);
+                            Token wordPosition = new Token(wordIndex, word, "Np",fields[3], startPos, endPos);
                             nerWords.add(wordPosition);
                             break;
                         }  
@@ -93,7 +93,7 @@ public class Utilities {
 
     }
     // phân tách khi chỉ có input  
-    public void PhanTachLoaiTu (String text, List<WordPosition> nounWords, List<WordPosition> verbWords,List<WordPosition> adjWords, List<WordPosition> nerWords){
+    public void PhanTachLoaiTu (String text, List<Token> nounWords, List<Token> verbWords,List<Token> adjWords, List<Token> nerWords){
         Annotation annotation = new Annotation(text);
         annotation = PhanTich(text);
         
@@ -112,25 +112,25 @@ public class Utilities {
                     switch (fields[2]) {
                         case "N":
                         {
-                            WordPosition wordPosition = new WordPosition(wordIndex, word, "N",fields[3], startPos, endPos);
+                            Token wordPosition = new Token(wordIndex, word, "N",fields[3], startPos, endPos);
                             nounWords.add(wordPosition);
                             break;
                         } 
                         case "V":
                         {
-                            WordPosition wordPosition = new WordPosition(wordIndex, word,"V",fields[3], startPos, endPos);                          
+                            Token wordPosition = new Token(wordIndex, word,"V",fields[3], startPos, endPos);                          
                             verbWords.add(wordPosition);
                             break;
                         }                           
                         case "A":
                         {
-                            WordPosition wordPosition = new WordPosition(wordIndex, word, "A",fields[3], startPos, endPos);
+                            Token wordPosition = new Token(wordIndex, word, "A",fields[3], startPos, endPos);
                             adjWords.add(wordPosition);
                             break;
                         }  
                         case "Np":
                         {
-                            WordPosition wordPosition = new WordPosition(wordIndex, word, "Np",fields[3], startPos, endPos);
+                            Token wordPosition = new Token(wordIndex, word, "Np",fields[3], startPos, endPos);
                             nerWords.add(wordPosition);
                             break;
                         }  
@@ -142,7 +142,7 @@ public class Utilities {
                 }
             }
         }
-        for (WordPosition wp : nerWords) {
+        for (Token wp : nerWords) {
        // System.out.println("Word Index: " + wp.getWordIndex());
         System.out.println("Word: " + wp.getWord());
         System.out.println("Type: " + wp.getPOS());
@@ -163,7 +163,7 @@ public class Utilities {
         MISC	Names of miscellaneous entities
     */
     
-    public void PhanTichNER (String text,List<WordPosition> PERWords,List<WordPosition> LOCWords, List<WordPosition> ORGWords, List<WordPosition> MISCWords, ){
+    public void PhanTichNER (String text,List<Token> PERWords,List<Token> LOCWords, List<Token> ORGWords, List<Token> MISCWords ){
         Annotation annotation = new Annotation(text);
         annotation = PhanTich(text);
         
@@ -182,26 +182,26 @@ public class Utilities {
                     switch (fields[2]) {
                         case "N":
                         {
-                            WordPosition wordPosition = new WordPosition(wordIndex, word, "N",fields[3], startPos, endPos);
-                            nounWords.add(wordPosition);
+                            Token wordPosition = new Token(wordIndex, word, "N",fields[3], startPos, endPos);
+                            PERWords.add(wordPosition);
                             break;
                         } 
                         case "V":
                         {
-                            WordPosition wordPosition = new WordPosition(wordIndex, word,"V",fields[3], startPos, endPos);                          
-                            verbWords.add(wordPosition);
+                            Token wordPosition = new Token(wordIndex, word,"V",fields[3], startPos, endPos);                          
+                            LOCWords.add(wordPosition);
                             break;
                         }                           
                         case "A":
                         {
-                            WordPosition wordPosition = new WordPosition(wordIndex, word, "A",fields[3], startPos, endPos);
-                            adjWords.add(wordPosition);
+                            Token wordPosition = new Token(wordIndex, word, "A",fields[3], startPos, endPos);
+                            ORGWords.add(wordPosition);
                             break;
                         }  
                         case "Np":
                         {
-                            WordPosition wordPosition = new WordPosition(wordIndex, word, "Np",fields[3], startPos, endPos);
-                            nerWords.add(wordPosition);
+                            Token wordPosition = new Token(wordIndex, word, "Np",fields[3], startPos, endPos);
+                            MISCWords.add(wordPosition);
                             break;
                         }  
                         default:
@@ -212,7 +212,7 @@ public class Utilities {
                 }
             }
         }
-        for (WordPosition wp : nerWords) {
+        for (Token wp : MISCWords) {
        // System.out.println("Word Index: " + wp.getWordIndex());
         System.out.println("Word: " + wp.getWord());
         System.out.println("Type: " + wp.getPOS());

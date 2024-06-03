@@ -36,12 +36,12 @@ import vn.pipeline.Word;
 public class NewJFrame extends javax.swing.JFrame {
 
         // Extract words from annotation
-    List<WordPosition> nounWords = new ArrayList<>();
-    List<WordPosition> verbWords = new ArrayList<>();
-    List<WordPosition> adjWords = new ArrayList<>();
-    List<WordPosition> nerWords = new ArrayList<>();
+    List<Token> nounWords = new ArrayList<>();
+    List<Token> verbWords = new ArrayList<>();
+    List<Token> adjWords = new ArrayList<>();
+    List<Token> nerWords = new ArrayList<>();
     // Extract words from annotation
-    List<WordPosition> wordsWithPositions = new ArrayList<>();
+    List<Token> wordsWithPositions = new ArrayList<>();
     
     public NewJFrame() {
         initComponents();
@@ -312,6 +312,7 @@ public class NewJFrame extends javax.swing.JFrame {
 //                    switch (fields[2]) {
 //                        case "N":
 //                        {
+
 //                            WordPosition wordPosition = new WordPosition(wordIndex, "N", startPos, endPos);
 //                            nounWords.add(wordPosition);
 //                            break;
@@ -347,12 +348,12 @@ public class NewJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnChonFileActionPerformed
 
     
-    public void highlighterNoun(List<WordPosition> patterns) {
+    public void highlighterNoun(List<Token> patterns) {
     Highlighter hl = areaInput.getHighlighter();
     //hl.removeAllHighlights();
     Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(Color.YELLOW);
 
-    for (WordPosition pattern : patterns) {
+    for (Token pattern : patterns) {
         
         try {
             int start = pattern.getStartPos();
@@ -363,12 +364,12 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         }
     }
-    public void highlighterVerd(List<WordPosition> patterns) {
+    public void highlighterVerd(List<Token> patterns) {
     Highlighter hl = areaInput.getHighlighter();
     //hl.removeAllHighlights();
     Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(Color.BLUE);
 
-    for (WordPosition pattern : patterns) {
+    for (Token pattern : patterns) {
         
         try {
             int start = pattern.getStartPos();
@@ -379,12 +380,12 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         }
     }
-    public void highlighterAdj(List<WordPosition> patterns) {
+    public void highlighterAdj(List<Token> patterns) {
     Highlighter hl = areaInput.getHighlighter();
 //    hl.removeAllHighlights();
     Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(Color.RED);
 
-    for (WordPosition pattern : patterns) {
+    for (Token pattern : patterns) {
         
         try {
             int start = pattern.getStartPos();
@@ -431,19 +432,19 @@ public class NewJFrame extends javax.swing.JFrame {
                     switch (fields[2]) {
                         case "N":
                         {
-                            WordPosition wordPosition = new WordPosition(wordIndex, "N", startPos, endPos);
+                            Token wordPosition = new Token(wordIndex, "N", startPos, endPos);
                             nounWords.add(wordPosition);
                             break;
                         } 
                         case "V":
                         {
-                            WordPosition wordPosition = new WordPosition(wordIndex, "V", startPos, endPos);                            
+                            Token wordPosition = new Token(wordIndex, "V", startPos, endPos);                            
                             verbWords.add(wordPosition);
                             break;
                         }                           
                         case "A":
                         {
-                            WordPosition wordPosition = new WordPosition(wordIndex, "A", startPos, endPos);
+                            Token wordPosition = new Token(wordIndex, "A", startPos, endPos);
                             adjWords.add(wordPosition);
                             break;
                         }   
