@@ -4,15 +4,50 @@
  */
 package final_project;
 
+import java.awt.Color;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Highlighter;
+
 /**
  *
  * @author lengu
  */
 public class form2 extends javax.swing.JFrame {
 
-    /**
-     * Creates new form form2
-     */
+    // Color
+    Color colorN = new Color(255, 255, 51);
+    Color colorV = new Color(102, 255, 51);
+    Color colorA = new Color(102, 102, 255);
+    Color colorNER = new Color(255, 51, 51);
+
+    //List 
+    List<Token> PERWords = new ArrayList<>();
+    List<Token> LOCWords = new ArrayList<>();
+    List<Token> ORGWords = new ArrayList<>();
+    List<Token> MISCWords = new ArrayList<>();
+    List<Token> lst = new ArrayList<Token>();
+    // Extract words from annotation
+    List<Token> tokens = new ArrayList<>();
+
+    //Class
+    Utilities uti = new Utilities();
+
+    //check 
+    int checkN = 0;
+    int checkV = 0;
+    int checkA = 0;
+    int checkNp = 0;
+
     public form2() {
         initComponents();
     }
@@ -33,10 +68,10 @@ public class form2 extends javax.swing.JFrame {
         jTextField2 = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        btnHNoun = new javax.swing.JButton();
-        btnHVerb = new javax.swing.JButton();
-        btnHAdj = new javax.swing.JButton();
-        btnNER = new javax.swing.JButton();
+        btnHPER = new javax.swing.JButton();
+        btnHLOC = new javax.swing.JButton();
+        btnHORG = new javax.swing.JButton();
+        btnHMISC = new javax.swing.JButton();
         btnHiglihtAll = new javax.swing.JButton();
         btnClear = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
@@ -55,6 +90,11 @@ public class form2 extends javax.swing.JFrame {
         });
 
         jButton8.setText("Select Document ");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -90,35 +130,35 @@ public class form2 extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setText("Highlight");
 
-        btnHNoun.setBackground(new java.awt.Color(255, 255, 51));
-        btnHNoun.setText("Noun");
-        btnHNoun.addActionListener(new java.awt.event.ActionListener() {
+        btnHPER.setBackground(new java.awt.Color(255, 255, 51));
+        btnHPER.setText("PER");
+        btnHPER.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnHNounActionPerformed(evt);
+                btnHPERActionPerformed(evt);
             }
         });
 
-        btnHVerb.setBackground(new java.awt.Color(102, 255, 51));
-        btnHVerb.setText("Verb");
-        btnHVerb.addActionListener(new java.awt.event.ActionListener() {
+        btnHLOC.setBackground(new java.awt.Color(102, 255, 51));
+        btnHLOC.setText("LOC");
+        btnHLOC.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnHVerbActionPerformed(evt);
+                btnHLOCActionPerformed(evt);
             }
         });
 
-        btnHAdj.setBackground(new java.awt.Color(102, 102, 255));
-        btnHAdj.setText("Adj");
-        btnHAdj.addActionListener(new java.awt.event.ActionListener() {
+        btnHORG.setBackground(new java.awt.Color(102, 102, 255));
+        btnHORG.setText("ORG");
+        btnHORG.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnHAdjActionPerformed(evt);
+                btnHORGActionPerformed(evt);
             }
         });
 
-        btnNER.setBackground(new java.awt.Color(255, 51, 51));
-        btnNER.setText("Proper Noun");
-        btnNER.addActionListener(new java.awt.event.ActionListener() {
+        btnHMISC.setBackground(new java.awt.Color(255, 51, 51));
+        btnHMISC.setText("MISC");
+        btnHMISC.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNERActionPerformed(evt);
+                btnHMISCActionPerformed(evt);
             }
         });
 
@@ -146,12 +186,12 @@ public class form2 extends javax.swing.JFrame {
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(btnHVerb, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
-                            .addComponent(btnHNoun, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(btnHLOC, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
+                            .addComponent(btnHPER, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnHAdj, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnNER, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(btnHORG, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnHMISC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(35, 35, 35)
                 .addComponent(btnHiglihtAll, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(38, 38, 38)
@@ -166,12 +206,12 @@ public class form2 extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnHNoun)
-                            .addComponent(btnHAdj))
+                            .addComponent(btnHPER)
+                            .addComponent(btnHORG))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnHVerb)
-                            .addComponent(btnNER)))
+                            .addComponent(btnHLOC)
+                            .addComponent(btnHMISC)))
                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnHiglihtAll, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -254,7 +294,7 @@ public class form2 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSelectDocumentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectDocumentActionPerformed
-        // TODO add your handling code here:
+// TODO add your handling code here:
         JFileChooser chooser = new JFileChooser();
 
         // Add a file filter for text files
@@ -277,52 +317,94 @@ public class form2 extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, e);
             }
 
-            //phân tích
+            //phân tích 
             String str = areaInput.getText();
 
-            uti.PhanTachLoaiTu(str, nounWords, verbWords, adjWords, nerWords);
+            uti.PhanTichNER(str, PERWords, LOCWords, ORGWords, MISCWords);
         }
     }//GEN-LAST:event_btnSelectDocumentActionPerformed
 
-    private void btnHNounActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHNounActionPerformed
+    
+    public void highlighteLoaiTu(List<Token> patterns, Color colorN, int check) {
+        Highlighter hl = areaInput.getHighlighter();
+        //hl.removeAllHighlights();
+        Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(colorN);
+
+        for (Token pattern : patterns) {
+            try {
+                int start = pattern.getStartPos();
+                int end = pattern.getEndPos() + 1; // End position should be inclusive
+                hl.addHighlight(start, end, painter);
+
+                // Debugging statement to print the list size after adding
+                System.out.println("List Size: " + lst.size());
+            } catch (BadLocationException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+//        // Optionally, you can add the highlighted words to the list outside the loop
+//        String loaiTu = "";
+//        if (patterns.get(1).getPOS().equals("N")) {
+//            loaiTu = "danh từ";
+//        } else if (patterns.get(1).getPOS().equals("A")) {
+//            loaiTu = "tính từ";
+//        } else if (patterns.get(1).getPOS().equals("V")) {
+//            loaiTu = "động từ";
+//        } else if (patterns.get(1).getPOS().equals("Np")) {
+//            loaiTu = "danh từ riêng";
+//        } else {
+//            loaiTu = "loại từ không xác định";
+//        }
+//
+//        for (Token pattern : patterns) {
+//            Token conceptInfo = new Token(pattern.getWord(), pattern.getStartPos(), pattern.getEndPos(), loaiTu);
+//            if (check == 0) {
+//                lst.add(conceptInfo);
+//                sortList(lst);
+//                updateTable();
+//            }
+//        }
+    }
+    private void btnHPERActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHPERActionPerformed
         //btnHNoun.setEnabled(false);
-        highlighteLoaiTu(nounWords, colorN,checkN);
+        highlighteLoaiTu(PERWords, colorN,checkN);
         checkN = 1;
         // Ensure the areaInput component is not null and has selected text
 
         // Update JTable
-    }//GEN-LAST:event_btnHNounActionPerformed
+    }//GEN-LAST:event_btnHPERActionPerformed
 
-    private void btnHVerbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHVerbActionPerformed
+    private void btnHLOCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHLOCActionPerformed
         // TODO add your handling code here:
         //        Highlighter hl2 = areaInput.getHighlighter(); // để xóa higlight cũ
         //        hl2.removeAllHighlights();
         //btnHVerb.setEnabled(false);
-        highlighteLoaiTu(verbWords, colorV,checkV);
+        highlighteLoaiTu(LOCWords, colorV,checkV);
         checkV = 1;
-    }//GEN-LAST:event_btnHVerbActionPerformed
+    }//GEN-LAST:event_btnHLOCActionPerformed
 
-    private void btnHAdjActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHAdjActionPerformed
+    private void btnHORGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHORGActionPerformed
         // TODO add your handling code here:
         //        Highlighter hl3 = areaInput.getHighlighter();// để xóa higlight cũ
         //        hl3.removeAllHighlights();
         //btnHAdj.setEnabled(false);
-        highlighteLoaiTu(adjWords, colorA,checkA);
+        highlighteLoaiTu(ORGWords, colorA,checkA);
         checkA = 1;
-    }//GEN-LAST:event_btnHAdjActionPerformed
+    }//GEN-LAST:event_btnHORGActionPerformed
 
-    private void btnNERActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNERActionPerformed
+    private void btnHMISCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHMISCActionPerformed
         // TODO add your handling code here:
 
-        highlighteLoaiTu(nerWords, colorNER,checkNp);
+        highlighteLoaiTu(MISCWords, colorNER,checkNp);
         checkNp = 1;
-    }//GEN-LAST:event_btnNERActionPerformed
+    }//GEN-LAST:event_btnHMISCActionPerformed
 
     private void btnHiglihtAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHiglihtAllActionPerformed
         // TODO add your handling code here:
         Highlighter hl2 = areaInput.getHighlighter();
         hl2.removeAllHighlights();
-        highlighterAll(wordsWithPositions, colorN, colorV, colorA);
+        //highlighterAll(tokens, colorN, colorV, colorA);
     }//GEN-LAST:event_btnHiglihtAllActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
@@ -332,6 +414,10 @@ public class form2 extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
     }//GEN-LAST:event_btnClearActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton8ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -371,11 +457,11 @@ public class form2 extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextPane areaInput;
     private javax.swing.JButton btnClear;
-    private javax.swing.JButton btnHAdj;
-    private javax.swing.JButton btnHNoun;
-    private javax.swing.JButton btnHVerb;
+    private javax.swing.JButton btnHLOC;
+    private javax.swing.JButton btnHMISC;
+    private javax.swing.JButton btnHORG;
+    private javax.swing.JButton btnHPER;
     private javax.swing.JButton btnHiglihtAll;
-    private javax.swing.JButton btnNER;
     private javax.swing.JButton btnSelectDocument;
     private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel2;

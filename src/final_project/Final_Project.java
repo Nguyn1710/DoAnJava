@@ -27,7 +27,7 @@ public class Final_Project {
         VnCoreNLP pipeline = new VnCoreNLP(annotators);
 
         // input nhập vào 
-        String str = "Hương Trà đang lướt facebook";
+        String str = "Ngày hôm qua, tôi đã có một trải nghiệm thú vị khi đi dạo quanh hồ Gươm. Khung cảnh tuyệt đẹp với mặt hồ xanh biếc, phản chiếu ánh nắng vàng rực rỡ của buổi chiều. Cây cối xanh mát rợp bóng, tiếng chim hót líu lo khiến lòng người thư thái. Tôi dừng chân ngắm nhìn tháp Rùa cổ kính, cảm nhận rõ nét lịch sử và văn hóa ngàn năm của thủ đô Hà Nội. Không khí trong lành, mát mẻ càng làm cho buổi chiều thêm phần thi vị và khó quên.";
 
         Annotation annotation = new Annotation(str);
         pipeline.annotate(annotation);

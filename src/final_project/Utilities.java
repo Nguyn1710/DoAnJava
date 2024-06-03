@@ -5,6 +5,7 @@
 package final_project;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,14 +28,14 @@ public class Utilities {
         try {
             pipeline = new VnCoreNLP(annotators);
         } catch (IOException ex) {
-            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DoAn.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         Annotation annotation = new Annotation(input);
         try {
             pipeline.annotate(annotation);
         } catch (IOException ex) {
-            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DoAn.class.getName()).log(Level.SEVERE, null, ex);
         }
         return annotation;
     }
@@ -50,7 +51,7 @@ public class Utilities {
         for (Word item : annotation.getWords()) {
             String[] fields = item.toString().split("\t");
             if (fields.length > 3) {
-                String word = item.getForm();
+                String word =  item.getForm().replace("_", " ");
                 int startPos = text.indexOf(word, currentPos);
                 int endPos = startPos + word.length() - 1;
                 if (startPos != -1) {
@@ -105,7 +106,8 @@ public class Utilities {
         for (Word item : annotation.getWords()) {
             String[] fields = item.toString().split("\t");
             if (fields.length > 3) {
-                String word = item.getForm();
+                //System.out.println("item " + item.getForm());
+                String word =  item.getForm().replace("_", " ");
                 int startPos = text.indexOf(word, currentPos);
                 int endPos = startPos + word.length() - 1;
                 if (startPos != -1) {
@@ -142,7 +144,7 @@ public class Utilities {
                 }
             }
         }
-        for (Token wp : nerWords) {
+        for (Token wp : nounWords) {
        // System.out.println("Word Index: " + wp.getWordIndex());
         System.out.println("Word: " + wp.getWord());
         System.out.println("Type: " + wp.getPOS());
@@ -175,37 +177,22 @@ public class Utilities {
         for (Word item : annotation.getWords()) {
             String[] fields = item.toString().split("\t");
             if (fields.length > 3) {
-                String word = item.getForm();
+                String word =  item.getForm().replace("_", " ");
                 int startPos = text.indexOf(word, currentPos);
                 int endPos = startPos + word.length() - 1;
                 if (startPos != -1) {
-                    switch (fields[2]) {
-                        case "N":
-                        {
-                            Token wordPosition = new Token(wordIndex, word, "N",fields[3], startPos, endPos);
-                            PERWords.add(wordPosition);
-                            break;
-                        } 
-                        case "V":
-                        {
-                            Token wordPosition = new Token(wordIndex, word,"V",fields[3], startPos, endPos);                          
-                            LOCWords.add(wordPosition);
-                            break;
-                        }                           
-                        case "A":
-                        {
-                            Token wordPosition = new Token(wordIndex, word, "A",fields[3], startPos, endPos);
-                            ORGWords.add(wordPosition);
-                            break;
-                        }  
-                        case "Np":
-                        {
-                            Token wordPosition = new Token(wordIndex, word, "Np",fields[3], startPos, endPos);
-                            MISCWords.add(wordPosition);
-                            break;
-                        }  
-                        default:
-                            break;
+                    if (fields[3].contains("PER")) {
+                        Token wordPosition = new Token(wordIndex, word, fields[2], fields[3], startPos, endPos);
+                        PERWords.add(wordPosition);
+                    } else if (fields[3].contains("LOC")) {
+                        Token wordPosition = new Token(wordIndex, word, fields[2], fields[3], startPos, endPos);
+                        LOCWords.add(wordPosition);
+                    } else if (fields[3].contains("ORG")) {
+                        Token wordPosition = new Token(wordIndex, word, fields[2], fields[3], startPos, endPos);
+                        ORGWords.add(wordPosition);
+                    } else if (fields[3].contains("MISC")) {
+                        Token wordPosition = new Token(wordIndex, word, "Np", fields[3], startPos, endPos);
+                        MISCWords.add(wordPosition);
                     }
                     currentPos = endPos + 1; // Update current position to search for next word
                     wordIndex++; // Increment the word index
