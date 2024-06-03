@@ -39,7 +39,7 @@ public class DoAn extends javax.swing.JFrame {
     List<Token> nounWords = new ArrayList<>();
     List<Token> verbWords = new ArrayList<>();
     List<Token> adjWords = new ArrayList<>();
-    List<Token> nerWords = new ArrayList<>();
+    List<Token> npWords = new ArrayList<>();
     List<Token> PERWords = new ArrayList<>();
     List<Token> LOCWords = new ArrayList<>();
     List<Token> ORGWords = new ArrayList<>();
@@ -244,6 +244,12 @@ public class DoAn extends javax.swing.JFrame {
             }
         });
 
+        txtTenFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTenFileActionPerformed(evt);
+            }
+        });
+
         jButton8.setText("Select Document ");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -269,7 +275,7 @@ public class DoAn extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(txtTenFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSelectDocument))
+                    .addComponent(btnSelectDocument, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(txtPath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -563,19 +569,45 @@ public class DoAn extends javax.swing.JFrame {
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e);
             }
+            // set dữ liệu lại 
+            nounWords.clear();
+            verbWords.clear();
+            adjWords.clear();
+            npWords.clear();
+            PERWords.clear();
+            LOCWords.clear();
+            ORGWords.clear();
+            MISCWords.clear();
+            lst.clear();
+            tokens.clear();
+            checkN = 0;
+            checkV = 0;
+            checkA = 0;
+            checkNp = 0;
+
+            // xóa higlight
+            Highlighter hl2 = areaInput.getHighlighter();
+            hl2.removeAllHighlights();
+            // xóa bảng 
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
 
             //phân tích 
             String str = areaInput.getText();
 
-            uti.PhanTachLoaiTu(str, nounWords, verbWords, adjWords, nerWords);
+            uti.PhanTachLoaiTu(str, nounWords, verbWords, adjWords, npWords);
             uti.PhanTichNER(str, PERWords, LOCWords, ORGWords, MISCWords);
         }
     }//GEN-LAST:event_btnSelectDocumentActionPerformed
 
     private void btnHNounActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHNounActionPerformed
         //btnHNoun.setEnabled(false);
-        highlighteLoaiTu(nounWords, colorN, checkN);
-        checkN = 1;
+        if (nounWords.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No noun words found.", "Information", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            highlighteLoaiTu(nounWords, colorN, checkN);
+            checkN = 1;
+        }
         // Ensure the areaInput component is not null and has selected text
 
         // Update JTable
@@ -602,8 +634,12 @@ public class DoAn extends javax.swing.JFrame {
 //        Highlighter hl2 = areaInput.getHighlighter(); // để xóa higlight cũ
 //        hl2.removeAllHighlights();
         //btnHVerb.setEnabled(false);
-        highlighteLoaiTu(verbWords, colorV, checkV);
-        checkV = 1;
+        if (verbWords.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No verb words found.", "Information", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            highlighteLoaiTu(verbWords, colorV, checkV);
+            checkV = 1;
+        }
     }//GEN-LAST:event_btnHVerbActionPerformed
 
     private void btnHAdjActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHAdjActionPerformed
@@ -611,8 +647,13 @@ public class DoAn extends javax.swing.JFrame {
 //        Highlighter hl3 = areaInput.getHighlighter();// để xóa higlight cũ
 //        hl3.removeAllHighlights();
         //btnHAdj.setEnabled(false);
-        highlighteLoaiTu(adjWords, colorA, checkA);
-        checkA = 1;
+        if (adjWords.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No adjective words found.", "Information", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            highlighteLoaiTu(adjWords, colorA, checkA);
+            checkA = 1;
+        }
+
     }//GEN-LAST:event_btnHAdjActionPerformed
 
     private void btnHiglihtAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHiglihtAllActionPerformed
@@ -621,7 +662,7 @@ public class DoAn extends javax.swing.JFrame {
         hl2.removeAllHighlights();
         highlighteLoaiTu(adjWords, colorA, checkA);
         highlighteLoaiTu(verbWords, colorV, checkV);
-        highlighteLoaiTu(nerWords, colorNER, checkNp);
+        highlighteLoaiTu(npWords, colorNER, checkNp);
         highlighteLoaiTu(nounWords, colorN, checkN);
         checkN =1 ;
         checkA =1;
@@ -635,7 +676,6 @@ public class DoAn extends javax.swing.JFrame {
         hl2.removeAllHighlights();
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
-        int checkN = 0;
         checkN = 0;
         checkV = 0;
         checkA = 0;
@@ -646,8 +686,13 @@ public class DoAn extends javax.swing.JFrame {
     private void btnNERActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNERActionPerformed
         // TODO add your handling code here:
 
-        highlighteLoaiTu(nerWords, colorNER, checkNp);
-        checkNp = 1;
+        if (npWords.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No named entity words found.", "Information", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            highlighteLoaiTu(npWords, colorNER, checkNp);
+            checkNp = 1;
+        }
+
     }//GEN-LAST:event_btnNERActionPerformed
 
     private String generateHighlightFilePath(String inputPath) {
@@ -704,8 +749,12 @@ public class DoAn extends javax.swing.JFrame {
 
     private void btnHPERActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHPERActionPerformed
         //btnHNoun.setEnabled(false);
-        highlighteLoaiTu(PERWords, colorN,checkN);
-        checkN = 1;
+        if (PERWords.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No PER words found.", "Information", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            highlighteLoaiTu(PERWords, colorN, checkN);
+            checkN = 1;
+        }
         // Ensure the areaInput component is not null and has selected text
 
         // Update JTable
@@ -716,8 +765,14 @@ public class DoAn extends javax.swing.JFrame {
         //        Highlighter hl2 = areaInput.getHighlighter(); // để xóa higlight cũ
         //        hl2.removeAllHighlights();
         //btnHVerb.setEnabled(false);
-        highlighteLoaiTu(LOCWords, colorV,checkV);
-        checkV = 1;
+        if (LOCWords.isEmpty()) {
+            System.out.println("No LOC words found.");
+            // Hoặc hiển thị thông báo hộp thoại
+            // JOptionPane.showMessageDialog(null, "No LOC words found.", "Information", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            highlighteLoaiTu(LOCWords, colorV, checkV);
+            checkV = 1;
+        }
     }//GEN-LAST:event_btnHLOCActionPerformed
 
     private void btnHORGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHORGActionPerformed
@@ -725,15 +780,23 @@ public class DoAn extends javax.swing.JFrame {
         //        Highlighter hl3 = areaInput.getHighlighter();// để xóa higlight cũ
         //        hl3.removeAllHighlights();
         //btnHAdj.setEnabled(false);
-        highlighteLoaiTu(ORGWords, colorA,checkA);
-        checkA = 1;
+        if (ORGWords.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No ORG words found.", "Information", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            highlighteLoaiTu(ORGWords, colorA, checkA);
+            checkA = 1;
+        }
     }//GEN-LAST:event_btnHORGActionPerformed
 
     private void btnHMISCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHMISCActionPerformed
         // TODO add your handling code here:
-
-        highlighteLoaiTu(MISCWords, colorNER,checkNp);
-        checkNp = 1;
+        if (MISCWords.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No MISC words found.", "Information", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            highlighteLoaiTu(MISCWords, colorNER,checkNp);
+            checkNp = 1;
+        }
+        
     }//GEN-LAST:event_btnHMISCActionPerformed
 
     private void btnHiglihtAll1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHiglihtAll1ActionPerformed
@@ -763,13 +826,37 @@ public class DoAn extends javax.swing.JFrame {
         // TODO add your handling code here:
         NERPanel.setVisible(false);
         POSPanel.setVisible(true);
+        //
+        Highlighter hl2 = areaInput.getHighlighter();
+        hl2.removeAllHighlights();
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+        int checkN = 0;
+        checkV = 0;
+        checkA = 0;
+        checkNp = 0;
+        lst.clear();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         POSPanel.setVisible(false);
         NERPanel.setVisible(true);
+        //
+        Highlighter hl2 = areaInput.getHighlighter();
+        hl2.removeAllHighlights();
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+        int checkN = 0;
+        checkV = 0;
+        checkA = 0;
+        checkNp = 0;
+        lst.clear();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void txtTenFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTenFileActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTenFileActionPerformed
 
     private void sortList(List<Token> classWord) {
         // Sắp xếp danh sách conceptInfos theo giá trị của trường StartPosition theo thứ tự tăng dần

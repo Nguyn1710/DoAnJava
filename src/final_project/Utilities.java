@@ -94,7 +94,7 @@ public class Utilities {
 
     }
     // phân tách khi chỉ có input  
-    public void PhanTachLoaiTu (String text, List<Token> nounWords, List<Token> verbWords,List<Token> adjWords, List<Token> nerWords){
+    public void PhanTachLoaiTu (String text, List<Token> nounWords, List<Token> verbWords,List<Token> adjWords, List<Token> npWords){
         Annotation annotation = new Annotation(text);
         annotation = PhanTich(text);
         
@@ -133,7 +133,7 @@ public class Utilities {
                         case "Np":
                         {
                             Token wordPosition = new Token(wordIndex, word, "Np",fields[3], startPos, endPos);
-                            nerWords.add(wordPosition);
+                            npWords.add(wordPosition);
                             break;
                         }  
                         default:
