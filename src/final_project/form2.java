@@ -325,10 +325,10 @@ public class form2 extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSelectDocumentActionPerformed
 
     
-    public void highlighteLoaiTu(List<Token> patterns, Color colorN, int check) {
+    public void highlighteNER(List<Token> patterns, Color color, int check) {
         Highlighter hl = areaInput.getHighlighter();
         //hl.removeAllHighlights();
-        Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(colorN);
+        Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(color);
 
         for (Token pattern : patterns) {
             try {
