@@ -7,8 +7,11 @@ package final_project;
 import edu.emory.mathcs.nlp.component.template.util.NLPMode;
 import java.awt.Color;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFileChooser;
@@ -30,7 +33,7 @@ public class DoAn extends javax.swing.JFrame {
     Color colorN = new Color(255, 255, 51);
     Color colorV = new Color(102, 255, 51);
     Color colorA = new Color(102, 102, 255);
-    Color colorNER = new Color(255,51,51);
+    Color colorNER = new Color(255, 51, 51);
 
     //List 
     List<WordPosition> nounWords = new ArrayList<>();
@@ -43,12 +46,12 @@ public class DoAn extends javax.swing.JFrame {
 
     //Class
     Utilities uti = new Utilities();
-    
+
     //check 
-    int checkN = 0 ;
-    int checkV = 0 ;
-    int checkA = 0 ;
-    int checkNp = 0 ;
+    int checkN = 0;
+    int checkV = 0;
+    int checkA = 0;
+    int checkNp = 0;
 
     public DoAn() {
         initComponents();
@@ -88,11 +91,9 @@ public class DoAn extends javax.swing.JFrame {
             loaiTu = "loại từ không xác định";
         }
 
-
         for (WordPosition pattern : patterns) {
             WordPosition conceptInfo = new WordPosition(pattern.getWord(), pattern.getStartPos(), pattern.getEndPos(), loaiTu);
-            if (check == 0)
-            {
+            if (check == 0) {
                 lst.add(conceptInfo);
                 sortList(lst);
                 updateTable();
@@ -182,7 +183,7 @@ public class DoAn extends javax.swing.JFrame {
         btnSelectDocument = new javax.swing.JButton();
         txtTenFile = new javax.swing.JTextField();
         jButton8 = new javax.swing.JButton();
-        jTextField2 = new javax.swing.JTextField();
+        txtPath = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         btnHNoun = new javax.swing.JButton();
@@ -191,6 +192,7 @@ public class DoAn extends javax.swing.JFrame {
         btnNER = new javax.swing.JButton();
         btnHiglihtAll = new javax.swing.JButton();
         btnClear = new javax.swing.JButton();
+        btnExport = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(51, 102, 255));
@@ -283,7 +285,7 @@ public class DoAn extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jButton8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 488, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtPath, javax.swing.GroupLayout.PREFERRED_SIZE, 488, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(btnSelectDocument)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -299,7 +301,7 @@ public class DoAn extends javax.swing.JFrame {
                     .addComponent(btnSelectDocument))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton8))
                 .addContainerGap(36, Short.MAX_VALUE))
         );
@@ -332,7 +334,7 @@ public class DoAn extends javax.swing.JFrame {
         });
 
         btnNER.setBackground(new java.awt.Color(255, 51, 51));
-        btnNER.setText("jButton4");
+        btnNER.setText("Proper Noun");
         btnNER.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNERActionPerformed(evt);
@@ -353,6 +355,13 @@ public class DoAn extends javax.swing.JFrame {
             }
         });
 
+        btnExport.setText("Export");
+        btnExport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -369,30 +378,42 @@ public class DoAn extends javax.swing.JFrame {
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnHAdj, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnNER, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGap(35, 35, 35)
-                .addComponent(btnHiglihtAll, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38)
-                .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(61, 61, 61))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnHiglihtAll, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(115, 115, 115)
+                        .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(154, 154, 154)
+                        .addComponent(btnExport)))
+                .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnHNoun)
                             .addComponent(btnHAdj))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(btnHVerb)
+                                    .addComponent(btnNER)))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(14, 14, 14)
+                                .addComponent(btnExport))))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnHVerb)
-                            .addComponent(btnNER)))
-                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnHiglihtAll, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 20, Short.MAX_VALUE))
+                            .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnHiglihtAll, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         btnHNoun.getAccessibleContext().setAccessibleName("Noun ");
@@ -471,7 +492,7 @@ public class DoAn extends javax.swing.JFrame {
 
     private void btnHNounActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHNounActionPerformed
         //btnHNoun.setEnabled(false);
-        highlighteLoaiTu(nounWords, colorN,checkN);
+        highlighteLoaiTu(nounWords, colorN, checkN);
         checkN = 1;
         // Ensure the areaInput component is not null and has selected text
 
@@ -499,7 +520,7 @@ public class DoAn extends javax.swing.JFrame {
 //        Highlighter hl2 = areaInput.getHighlighter(); // để xóa higlight cũ
 //        hl2.removeAllHighlights();
         //btnHVerb.setEnabled(false);
-        highlighteLoaiTu(verbWords, colorV,checkV);
+        highlighteLoaiTu(verbWords, colorV, checkV);
         checkV = 1;
     }//GEN-LAST:event_btnHVerbActionPerformed
 
@@ -508,7 +529,7 @@ public class DoAn extends javax.swing.JFrame {
 //        Highlighter hl3 = areaInput.getHighlighter();// để xóa higlight cũ
 //        hl3.removeAllHighlights();
         //btnHAdj.setEnabled(false);
-        highlighteLoaiTu(adjWords, colorA,checkA);
+        highlighteLoaiTu(adjWords, colorA, checkA);
         checkA = 1;
     }//GEN-LAST:event_btnHAdjActionPerformed
 
@@ -529,10 +550,62 @@ public class DoAn extends javax.swing.JFrame {
 
     private void btnNERActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNERActionPerformed
         // TODO add your handling code here:
-        
-        highlighteLoaiTu(nerWords, colorNER,checkNp);
+
+        highlighteLoaiTu(nerWords, colorNER, checkNp);
         checkNp = 1;
     }//GEN-LAST:event_btnNERActionPerformed
+
+    private String generateHighlightFilePath(String inputPath) {
+        File inputFile = new File(inputPath);
+        if (!inputFile.exists()) {
+            JOptionPane.showMessageDialog(null,"Input file does not exist.");
+            return null;
+        }
+
+        String directory = inputFile.getParent();
+        String filename = inputFile.getName();
+        int dotIndex = filename.lastIndexOf(".");
+        String baseName = (dotIndex == -1) ? filename : filename.substring(0, dotIndex);
+        String extension = (dotIndex == -1) ? "" : filename.substring(dotIndex);
+
+        String newFilename = baseName + "_highlight" + extension;
+        return directory + File.separator + newFilename;
+    }
+
+    private boolean exportTableData(String filePath) throws IOException {
+        FileWriter writer = new FileWriter(filePath);
+
+        // Write column headers
+        for (int i = 0; i < jTable1.getColumnCount(); i++) {
+            writer.write(jTable1.getColumnName(i) + "\t");
+        }
+        writer.write("\n");
+
+        // Write rows
+        for (int i = 0; i < jTable1.getRowCount(); i++) {
+            for (int j = 0; j < jTable1.getColumnCount(); j++) {
+                writer.write(jTable1.getValueAt(i, j).toString() + "\t");
+            }
+            writer.write("\n");
+        }
+
+        writer.close();
+        return true;
+    }
+    private void btnExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportActionPerformed
+        // TODO add your handling code here:
+        String inputPath = txtTenFile.getText();
+                String newFilePath = generateHighlightFilePath(inputPath);
+                try {
+                    if (newFilePath != null && exportTableData(newFilePath)) {
+                        JOptionPane.showMessageDialog(null,"File has been created at: " + newFilePath);
+                    } else {
+                        JOptionPane.showMessageDialog(null,"Failed to create the new file.");
+                    }
+                } catch (IOException ioException) {
+                    JOptionPane.showMessageDialog(null,"Error: " + ioException.getMessage());
+                }
+    }//GEN-LAST:event_btnExportActionPerformed
 
     private void sortList(List<WordPosition> classWord) {
         // Sắp xếp danh sách conceptInfos theo giá trị của trường StartPosition theo thứ tự tăng dần
@@ -541,6 +614,7 @@ public class DoAn extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextPane areaInput;
     private javax.swing.JButton btnClear;
+    private javax.swing.JButton btnExport;
     private javax.swing.JButton btnHAdj;
     private javax.swing.JButton btnHNoun;
     private javax.swing.JButton btnHVerb;
@@ -559,7 +633,7 @@ public class DoAn extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField txtPath;
     private javax.swing.JTextField txtTenFile;
     // End of variables declaration//GEN-END:variables
 }
