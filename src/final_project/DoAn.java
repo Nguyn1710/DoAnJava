@@ -105,6 +105,55 @@ public class DoAn extends javax.swing.JFrame {
             }
         }
     }
+    /// NER
+    public void highlighNER(List<Token> patterns, Color colorN, int check) {
+        Highlighter hl = areaInput.getHighlighter();
+        //hl.removeAllHighlights();
+        Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(colorN);
+
+        for (Token pattern : patterns) {
+            try {
+                int start = pattern.getStartPos();
+                int end = pattern.getEndPos() + 1; // End position should be inclusive
+                hl.addHighlight(start, end, painter);
+            } catch (BadLocationException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        // Lấy nhãn NER của phần tử đầu tiên (hoặc một phần tử bất kỳ khác tùy logic của bạn)
+        String loaiTu;
+        String nerLabel = patterns.get(0).getNER_Label(); // Lấy nhãn của phần tử đầu tiên
+
+        switch (nerLabel) {
+            case "PER":
+                loaiTu = "Tên người";
+                break;
+            case "LOC":
+                loaiTu = "Tên địa điểm";
+                break;
+            case "ORG":
+                loaiTu = "Tên tổ chức";
+                break;
+            case "MISC":
+                loaiTu = "Tên các thực thể khác";
+                break;
+            default:
+                loaiTu = "loại từ không xác định";
+                break;
+        }
+
+        // Thêm các từ đã được đánh dấu vào danh sách ngoài vòng lặp
+        if (check == 0) {
+            for (Token pattern : patterns) {
+                Token conceptInfo = new Token(pattern.getWord(), pattern.getStartPos(), pattern.getEndPos(), loaiTu);
+                lst.add(conceptInfo);
+            }
+            sortList(lst);
+            updateTable();
+        }
+    }
+
 
     
 
@@ -781,7 +830,7 @@ public class DoAn extends javax.swing.JFrame {
         if (PERWords.isEmpty()) {
             JOptionPane.showMessageDialog(null, "No PER words found.", "Information", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            highlighteLoaiTu(PERWords, colorN, checkN);
+            highlighNER(PERWords, colorN, checkN);
             checkN = 1;
         }
         // Ensure the areaInput component is not null and has selected text
@@ -799,7 +848,7 @@ public class DoAn extends javax.swing.JFrame {
             // Hoặc hiển thị thông báo hộp thoại
             // JOptionPane.showMessageDialog(null, "No LOC words found.", "Information", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            highlighteLoaiTu(LOCWords, colorV, checkV);
+            highlighNER(LOCWords, colorV, checkV);
             checkV = 1;
         }
     }//GEN-LAST:event_btnHLOCActionPerformed
@@ -812,7 +861,7 @@ public class DoAn extends javax.swing.JFrame {
         if (ORGWords.isEmpty()) {
             JOptionPane.showMessageDialog(null, "No ORG words found.", "Information", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            highlighteLoaiTu(ORGWords, colorA, checkA);
+            highlighNER(ORGWords, colorA, checkA);
             checkA = 1;
         }
     }//GEN-LAST:event_btnHORGActionPerformed
@@ -822,7 +871,7 @@ public class DoAn extends javax.swing.JFrame {
         if (MISCWords.isEmpty()) {
             JOptionPane.showMessageDialog(null, "No MISC words found.", "Information", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            highlighteLoaiTu(MISCWords, colorNER,checkNp);
+            highlighNER(MISCWords, colorNER,checkNp);
             checkNp = 1;
         }
         
