@@ -102,6 +102,7 @@ public class DoAn extends javax.swing.JFrame {
                 lst.add(conceptInfo);
                 sortList(lst);
                 updateTable();
+                
             }
         }
     }
