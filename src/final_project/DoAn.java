@@ -123,24 +123,18 @@ public class DoAn extends javax.swing.JFrame {
 
         // Lấy nhãn NER của phần tử đầu tiên (hoặc một phần tử bất kỳ khác tùy logic của bạn)
         String loaiTu;
-        String nerLabel = patterns.get(0).getNER_Label(); // Lấy nhãn của phần tử đầu tiên
+        String nerLabel = patterns.get(2).getNER_Label(); // Lấy nhãn của phần tử đầu tiên
 
-        switch (nerLabel) {
-            case "PER":
-                loaiTu = "Tên người";
-                break;
-            case "LOC":
-                loaiTu = "Tên địa điểm";
-                break;
-            case "ORG":
-                loaiTu = "Tên tổ chức";
-                break;
-            case "MISC":
-                loaiTu = "Tên các thực thể khác";
-                break;
-            default:
-                loaiTu = "loại từ không xác định";
-                break;
+        if (nerLabel.contains("PER")) {
+            loaiTu = "Tên người";
+        } else if (nerLabel.contains("LOC")) {
+            loaiTu = "Tên địa điểm";
+        } else if (nerLabel.contains("ORG")) {
+            loaiTu = "Tên tổ chức";
+        } else if (nerLabel.contains("MISC")) {
+            loaiTu = "Tên các thực thể khác";
+        } else {
+            loaiTu = "loại từ không xác định";
         }
 
         // Thêm các từ đã được đánh dấu vào danh sách ngoài vòng lặp
