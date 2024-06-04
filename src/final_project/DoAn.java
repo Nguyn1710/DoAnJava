@@ -668,10 +668,31 @@ public class DoAn extends javax.swing.JFrame {
         // TODO add your handling code here:
         Highlighter hl2 = areaInput.getHighlighter();
         hl2.removeAllHighlights();
-        highlighteLoaiTu(adjWords, colorA, checkA);
-        highlighteLoaiTu(verbWords, colorV, checkV);
-        highlighteLoaiTu(npWords, colorNER, checkNp);
-        highlighteLoaiTu(nounWords, colorN, checkN);
+        // Kiểm tra và tô màu từng danh sách từ nếu không trống
+        if (!adjWords.isEmpty()) {
+            highlighteLoaiTu(adjWords, colorA, checkA);
+        } else {
+            System.out.println("adjWords trống");
+        }
+
+        if (!verbWords.isEmpty()) {
+            highlighteLoaiTu(verbWords, colorV, checkV);
+        } else {
+            System.out.println("verbWords trống");
+        }
+
+        if (!npWords.isEmpty()) {
+            highlighteLoaiTu(npWords, colorNER, checkNp);
+        } else {
+            System.out.println("npWords trống");
+        }
+
+        if (!nounWords.isEmpty()) {
+            highlighteLoaiTu(nounWords, colorN, checkN);
+        } else {
+            System.out.println("nounWords trống");
+        }
+
         checkN =1 ;
         checkA =1;
         checkV =1;
@@ -811,15 +832,37 @@ public class DoAn extends javax.swing.JFrame {
         // TODO add your handling code here:
         Highlighter hl2 = areaInput.getHighlighter();
         hl2.removeAllHighlights();
-        highlighteLoaiTu(PERWords, colorN, checkN);
-        highlighteLoaiTu(LOCWords, colorV, checkV);
-        highlighteLoaiTu(MISCWords, colorNER,checkNp);
-        highlighteLoaiTu(ORGWords, colorA, checkA);
-        checkN =1 ;
-        checkA =1;
-        checkV =1;
-        checkNp =1;
-        //highlighterAll(tokens, colorN, colorV, colorA);
+        // Kiểm tra và tô màu từng danh sách từ nếu không trống
+            if (!PERWords.isEmpty()) {
+                highlighteLoaiTu(PERWords, colorN, checkN);
+            } else {
+                System.out.println("PERWords trống");
+            }
+
+            if (!LOCWords.isEmpty()) {
+                highlighteLoaiTu(LOCWords, colorV, checkV);
+            } else {
+                System.out.println("LOCWords trống");
+            }
+
+            if (!MISCWords.isEmpty()) {
+                highlighteLoaiTu(MISCWords, colorNER, checkNp);
+            } else {
+                System.out.println("MISCWords trống");
+            }
+
+            if (!ORGWords.isEmpty()) {
+                highlighteLoaiTu(ORGWords, colorA, checkA);
+            } else {
+                System.out.println("ORGWords trống");
+            }
+
+            // Đặt lại các biến kiểm tra
+            checkN = 1;
+            checkA = 1;
+            checkV = 1;
+            checkNp = 1;
+       
     }//GEN-LAST:event_btnHiglihtAll1ActionPerformed
 
     private void btnClear1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClear1ActionPerformed
