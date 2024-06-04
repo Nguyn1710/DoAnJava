@@ -177,6 +177,7 @@ public class DoAn extends javax.swing.JFrame {
         btnHMISC = new javax.swing.JButton();
         btnHiglihtAll1 = new javax.swing.JButton();
         btnClear1 = new javax.swing.JButton();
+        btnExport1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(51, 102, 255));
@@ -458,6 +459,13 @@ public class DoAn extends javax.swing.JFrame {
             }
         });
 
+        btnExport1.setText("Export");
+        btnExport1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExport1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout NERPanelLayout = new javax.swing.GroupLayout(NERPanel);
         NERPanel.setLayout(NERPanelLayout);
         NERPanelLayout.setHorizontalGroup(
@@ -465,7 +473,9 @@ public class DoAn extends javax.swing.JFrame {
             .addGroup(NERPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(NERPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(NERPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(630, Short.MAX_VALUE))
                     .addGroup(NERPanelLayout.createSequentialGroup()
                         .addGroup(NERPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(btnHLOC, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
@@ -477,8 +487,10 @@ public class DoAn extends javax.swing.JFrame {
                         .addGap(27, 27, 27)
                         .addComponent(btnHiglihtAll1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(26, 26, 26)
-                        .addComponent(btnClear1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(137, Short.MAX_VALUE))
+                        .addComponent(btnClear1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnExport1)
+                        .addGap(26, 26, 26))))
         );
         NERPanelLayout.setVerticalGroup(
             NERPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -496,8 +508,9 @@ public class DoAn extends javax.swing.JFrame {
                             .addComponent(btnHMISC)))
                     .addGroup(NERPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnHiglihtAll1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnClear1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(btnClear1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnExport1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(0, 14, Short.MAX_VALUE))
         );
 
         ButtonPanel.add(NERPanel, "card3");
@@ -859,6 +872,10 @@ public class DoAn extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTenFileActionPerformed
 
+    private void btnExport1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExport1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnExport1ActionPerformed
+
     private void sortList(List<Token> classWord) {
         // Sắp xếp danh sách conceptInfos theo giá trị của trường StartPosition theo thứ tự tăng dần
         classWord.sort((a, b) -> Integer.compare(a.getStartPos(), b.getEndPos()));
@@ -871,6 +888,7 @@ public class DoAn extends javax.swing.JFrame {
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnClear1;
     private javax.swing.JButton btnExport;
+    private javax.swing.JButton btnExport1;
     private javax.swing.JButton btnHAdj;
     private javax.swing.JButton btnHLOC;
     private javax.swing.JButton btnHMISC;
