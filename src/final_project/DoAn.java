@@ -766,7 +766,7 @@ public class DoAn extends javax.swing.JFrame {
         //        hl2.removeAllHighlights();
         //btnHVerb.setEnabled(false);
         if (LOCWords.isEmpty()) {
-            System.out.println("No LOC words found.");
+            JOptionPane.showMessageDialog(null,"No LOC words found.", "Information", JOptionPane.INFORMATION_MESSAGE);
             // Hoặc hiển thị thông báo hộp thoại
             // JOptionPane.showMessageDialog(null, "No LOC words found.", "Information", JOptionPane.INFORMATION_MESSAGE);
         } else {
