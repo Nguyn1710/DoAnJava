@@ -966,6 +966,17 @@ public class DoAn extends javax.swing.JFrame {
 
     private void btnExport1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExport1ActionPerformed
         // TODO add your handling code here:
+        String inputPath = txtTenFile.getText();
+                String newFilePath = generateHighlightFilePath(inputPath);
+                try {
+                    if (newFilePath != null && exportTableData(newFilePath)) {
+                        JOptionPane.showMessageDialog(null,"File has been created at: " + newFilePath);
+                    } else {
+                        JOptionPane.showMessageDialog(null,"Failed to create the new file.");
+                    }
+                } catch (IOException ioException) {
+                    JOptionPane.showMessageDialog(null,"Error: " + ioException.getMessage());
+                }
     }//GEN-LAST:event_btnExport1ActionPerformed
 
     private void sortList(List<Token> classWord) {
